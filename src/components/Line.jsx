@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { shallow } from "zustand/shallow";
 //import { lineChartData } from "./Data";
 ChartJS.register(
   CategoryScale,
@@ -22,28 +23,49 @@ ChartJS.register(
   Legend
 );
 function LineGraph() {
-  const { expenses, totalExpenses, totalIncomes } = useDataStore((state) => ({
-    expenses: state.expenses,
-    totalExpenses: state.totalExpenses(),
-    totalIncomes: state.totalIncomes(),
-  }));
+  const { expenses, incomes, totalExpenses, totalIncomes } = useDataStore(
+    (state) => ({
+      expenses: state.expenses,
+      incomes: state.incomes,
+      totalExpenses: state.totalExpenses(),
+      totalIncomes: state.totalIncomes(),
+    })
+  );
+  let firstItem = expenses && expenses.length > 0 ? expenses[0] : {};
+  let secondItem = incomes && incomes.length > 0 ? incomes[0] : {};
+
   const lineChartData = {
-    labels: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz"],
+    labels: [
+      "rent",
+      "kitchen",
+      "bill",
+      "clothes",
+      "transport",
+      "health",
+      "entertainment",
+    ],
     datasets: [
       {
         label: "Expenses",
-        data: [expenses], // expenses verisini burada kullanın
+        data: [
+          firstItem.rent || 0,
+          firstItem.kitchen || 0,
+          firstItem.bill || 0,
+          firstItem.clothes || 0,
+          firstItem.transport || 0,
+          firstItem.health || 0,
+          firstItem.entertainment || 0,
+        ], // expenses verisini burada kullanın
         borderColor: "rgb(75, 192, 192)",
       },
       {
-        label: "Income",
-        data: [totalIncomes], // totalIncomes verisini burada kullanın
-        borderColor: "rgb(75, 192, 192)",
-      },
-      {
-        label: "Total Expenses",
-        data: [totalExpenses], // totalExpenses verisini burada kullanın
-        borderColor: "rgb(192, 75, 192)",
+        label: "incomes",
+        data: [
+          secondItem.salary || 0,
+          secondItem.sideJob || 0,
+          secondItem.investment || 0,
+        ], // expenses verisini burada kullanın
+        borderColor: "rgb(244, 164, 96)",
       },
     ],
   };

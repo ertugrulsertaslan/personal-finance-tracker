@@ -3,32 +3,17 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
-  totalExpenses: () => {
-    console.log("Calculating total expense...");
-    return get().expenses.reduce((total, expense) => {
-      return (
-        total +
-        Number(expense.rent) +
-        Number(expense.kitchen) +
-        Number(expense.bill) +
-        Number(expense.clothes) +
-        Number(expense.transport) +
-        Number(expense.health) +
-        Number(expense.entertainment)
-      );
-    }, 0);
-  },
-  totalIncomes: () => {
-    console.log("Calculating total income...");
-    return get().incomes.reduce((total, income) => {
-      return (
-        total +
-        Number(income.salary) +
-        Number(income.sideJob) +
-        Number(income.investment)
-      );
-    }, 0);
-  },
+  rent: "",
+  kitchen: "",
+  bill: "",
+  clothes: "",
+  transport: "",
+  health: "",
+  entertainment: "",
+  salary: "",
+  sideJob: "",
+  investment: "",
+
   setRent: (rent) =>
     set((state) => ({
       ...state,
@@ -94,7 +79,6 @@ export const useDataStore = create((set, get) => ({
       sideJob: "",
       investment: "",
     })),
-
   addExpenses: (item) => {
     set((state) => ({
       expenses: [...state.expenses, item],
@@ -106,5 +90,31 @@ export const useDataStore = create((set, get) => ({
       incomes: [...state.incomes, item],
     }));
     get().resetToDoForm();
+  },
+  totalExpenses: () => {
+    // console.log("Calculating total expense...");
+    return get().expenses.reduce((total, expense) => {
+      return (
+        total +
+        Number(expense.rent) +
+        Number(expense.kitchen) +
+        Number(expense.bill) +
+        Number(expense.clothes) +
+        Number(expense.transport) +
+        Number(expense.health) +
+        Number(expense.entertainment)
+      );
+    }, 0);
+  },
+  totalIncomes: () => {
+    // console.log("Calculating total income...");
+    return get().incomes.reduce((total, income) => {
+      return (
+        total +
+        Number(income.salary) +
+        Number(income.sideJob) +
+        Number(income.investment)
+      );
+    }, 0);
   },
 }));
