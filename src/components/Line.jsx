@@ -33,7 +33,7 @@ function LineGraph() {
   let expensesItem = expenses && expenses.length > 0 ? expenses[0] : {};
   let incomesItem = incomes && incomes.length > 0 ? incomes[0] : {};
 
-  const lineChartData = {
+  const lineChartDataExpenses = {
     labels: [
       "rent",
       "kitchen",
@@ -57,6 +57,11 @@ function LineGraph() {
         ],
         borderColor: "rgb(75, 192, 192)",
       },
+    ],
+  };
+  const lineChartDataIncomes = {
+    labels: ["salary", "sideJob", "investment"],
+    datasets: [
       {
         label: "Incomes",
         data: [
@@ -69,6 +74,11 @@ function LineGraph() {
     ],
   };
 
-  return <Line data={lineChartData} />;
+  return (
+    <>
+      <Line data={lineChartDataExpenses} />
+      <Line data={lineChartDataIncomes} />
+    </>
+  );
 }
 export default LineGraph;
