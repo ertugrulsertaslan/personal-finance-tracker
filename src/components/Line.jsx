@@ -11,8 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { shallow } from "zustand/shallow";
-//import { lineChartData } from "./Data";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -31,8 +30,8 @@ function LineGraph() {
       totalIncomes: state.totalIncomes(),
     })
   );
-  let firstItem = expenses && expenses.length > 0 ? expenses[0] : {};
-  let secondItem = incomes && incomes.length > 0 ? incomes[0] : {};
+  let expensesItem = expenses && expenses.length > 0 ? expenses[0] : {};
+  let incomesItem = incomes && incomes.length > 0 ? incomes[0] : {};
 
   const lineChartData = {
     labels: [
@@ -48,23 +47,23 @@ function LineGraph() {
       {
         label: "Expenses",
         data: [
-          firstItem.rent || 0,
-          firstItem.kitchen || 0,
-          firstItem.bill || 0,
-          firstItem.clothes || 0,
-          firstItem.transport || 0,
-          firstItem.health || 0,
-          firstItem.entertainment || 0,
-        ], // expenses verisini burada kullanın
+          expensesItem.rent || 0,
+          expensesItem.kitchen || 0,
+          expensesItem.bill || 0,
+          expensesItem.clothes || 0,
+          expensesItem.transport || 0,
+          expensesItem.health || 0,
+          expensesItem.entertainment || 0,
+        ],
         borderColor: "rgb(75, 192, 192)",
       },
       {
-        label: "incomes",
+        label: "Incomes",
         data: [
-          secondItem.salary || 0,
-          secondItem.sideJob || 0,
-          secondItem.investment || 0,
-        ], // expenses verisini burada kullanın
+          incomesItem.salary || 0,
+          incomesItem.sideJob || 0,
+          incomesItem.investment || 0,
+        ],
         borderColor: "rgb(244, 164, 96)",
       },
     ],
