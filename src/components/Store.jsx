@@ -65,7 +65,7 @@ export const useDataStore = create((set, get) => ({
       investment,
     })),
 
-  resetToDoForm: () =>
+  resetToDoFormExpenses: () =>
     set((state) => ({
       ...state,
       rent: "",
@@ -75,6 +75,10 @@ export const useDataStore = create((set, get) => ({
       transport: "",
       health: "",
       entertainment: "",
+    })),
+  resetToDoFormIncomes: () =>
+    set((state) => ({
+      ...state,
       salary: "",
       sideJob: "",
       investment: "",
@@ -83,13 +87,13 @@ export const useDataStore = create((set, get) => ({
     set((state) => ({
       expenses: [...state.expenses, item],
     }));
-    get().resetToDoForm();
+    get().resetToDoFormExpenses();
   },
   addIncomes: (item) => {
     set((state) => ({
       incomes: [...state.incomes, item],
     }));
-    get().resetToDoForm();
+    get().resetToDoFormIncomes();
   },
   totalExpenses: () => {
     // console.log("Calculating total expense...");
