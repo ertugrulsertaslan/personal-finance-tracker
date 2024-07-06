@@ -12,10 +12,10 @@ function App() {
   return (
     <>
       <div className="flex w-full justify-center">
-        <div className="w-48">
+        <div className="w-48 ">
           <LineGraph />
         </div>
-        <div className="w-1/2 h-60 m-16">
+        <div className="w-2/3 h-40 m-32">
           <LineChartComponent />
         </div>
       </div>

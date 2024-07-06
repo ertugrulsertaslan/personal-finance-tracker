@@ -10,6 +10,28 @@ import {
 } from "recharts";
 import { useDataStore } from "./Store";
 const LineChartComponent = () => {
+  const options = {
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        suggestedMin: 0, // Y ekseni için varsayılan minimum değer
+        suggestedMax: 100, // Y ekseni için varsayılan maksimum değer
+      },
+      x: {
+        suggestedMin: 0, // Y ekseni için varsayılan minimum değer
+        suggestedMax: 100, // Y ekseni için varsayılan maksimum değer
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: "top",
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+  };
   const { expenses, incomes, totalExpenses, totalIncomes } = useDataStore(
     (state) => ({
       expenses: state.expenses,
@@ -69,7 +91,7 @@ const LineChartComponent = () => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={expensesData} margin={{ right: 30 }}>
+      <LineChart data={expensesData} options={options}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
@@ -77,7 +99,7 @@ const LineChartComponent = () => {
         <Legend />
         <Line type="monotone" dataKey="expenses" stroke="#3b82f6" />
       </LineChart>
-      <LineChart data={incomesData} margin={{ right: 30 }}>
+      <LineChart data={incomesData} options={options}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
@@ -99,5 +121,6 @@ const CustomTooltip = ({ active, payload, label }) => {
       </div>
     );
   }
+  return null;
 };
 export default LineChartComponent;

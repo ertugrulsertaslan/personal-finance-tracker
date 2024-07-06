@@ -96,7 +96,6 @@ export const useDataStore = create((set, get) => ({
     get().resetToDoFormIncomes();
   },
   totalExpenses: () => {
-    // console.log("Calculating total expense...");
     return get().expenses.reduce((total, expense) => {
       return (
         total +
@@ -111,7 +110,6 @@ export const useDataStore = create((set, get) => ({
     }, 0);
   },
   totalIncomes: () => {
-    // console.log("Calculating total income...");
     return get().incomes.reduce((total, income) => {
       return (
         total +
