@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDataStore } from "./Store";
 
 export default function addExpenses() {

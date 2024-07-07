@@ -1,6 +1,5 @@
 import "./App.css";
 import AddTable from "./components/AddTable.jsx";
-
 import Menu from "./components/Menu.jsx";
 
 function App() {
