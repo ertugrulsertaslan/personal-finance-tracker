@@ -22,17 +22,24 @@ ChartJS.register(
   Legend
 );
 function LineGraph() {
-  const { expenses, incomes, totalExpenses, totalIncomes } = useDataStore(
-    (state) => ({
-      expenses: state.expenses,
-      incomes: state.incomes,
-      totalExpenses: state.totalExpenses(),
-      totalIncomes: state.totalIncomes(),
-    })
-  );
+  const { expenses, incomes } = useDataStore((state) => ({
+    expenses: state.expenses,
+    incomes: state.incomes,
+  }));
   let expensesItem = expenses && expenses.length > 0 ? expenses[0] : {};
   let incomesItem = incomes && incomes.length > 0 ? incomes[0] : {};
 
+  const backgroundPlugin = {
+    id: "customCanvasBackgroundColor",
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext("2d");
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = "#0a0f26";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    },
+  };
   const lineChartDataExpenses = {
     labels: [
       "rent",
@@ -73,11 +80,38 @@ function LineGraph() {
       },
     ],
   };
-
+  const chartOptions = {
+    scales: {
+      y: {
+        grid: {
+          color: "rgba(255, 255, 255, 0.1)",
+        },
+      },
+      x: {
+        grid: {
+          color: "rgba(255, 255, 255, 0.1)",
+        },
+      },
+    },
+  };
   return (
     <>
-      <Line data={lineChartDataExpenses} />
-      <Line data={lineChartDataIncomes} />
+      <div className="w-full">
+        <div className="mb-5">
+          <Line
+            data={lineChartDataExpenses}
+            plugins={[backgroundPlugin]}
+            options={chartOptions}
+          />
+        </div>
+        <div>
+          <Line
+            data={lineChartDataIncomes}
+            plugins={[backgroundPlugin]}
+            options={chartOptions}
+          />
+        </div>
+      </div>
     </>
   );
 }
