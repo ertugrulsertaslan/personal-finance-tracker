@@ -13,6 +13,7 @@ function App() {
     })
   );
   let expensesItem = expenses && expenses.length > 0 ? expenses[0] : {};
+
   return (
     <>
       <div className="flex w-full justify-center p-5">
@@ -45,7 +46,7 @@ function App() {
                 <h2 className="font-bold text-2xl">Recent Transactions</h2>
               </div>
               <div className="items-center flex-col mt-10 w-full">
-                {Object.keys(expensesItem).map((key, index) => (
+                {expenses.map((item, index) => (
                   <div
                     className="flex items-center justify-start w-full ml-5 mb-10"
                     key={index}
@@ -53,9 +54,9 @@ function App() {
                     <div className="w-14 mr-3">
                       <PriceChangeRoundedIcon fontSize="large" />
                     </div>
-                    <h3 className="mr-20 ml-10 mb-3">{key}</h3>
+                    <h3 className="mr-20 ml-10 mb-3">{item.category}</h3>
                     <p className="ml-auto text-red-600 font-bold">
-                      -${expensesItem[key]}
+                      -${item.amount}
                     </p>
                   </div>
                 ))}

@@ -3,120 +3,31 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
-  rent: "",
-  kitchen: "",
-  bill: "",
-  clothes: "",
-  transport: "",
-  health: "",
-  entertainment: "",
+  categories: ["rent", "kitchen", "bill", "salary", "sideJob"],
   salary: "",
   sideJob: "",
   investment: "",
+  addCategory: (category) =>
+    set((state) => ({ categories: [...state.categories, category] })),
 
-  setRent: (rent) =>
-    set((state) => ({
-      ...state,
-      rent,
-    })),
-  setKitchen: (kitchen) =>
-    set((state) => ({
-      ...state,
-      kitchen,
-    })),
-  setBill: (bill) =>
-    set((state) => ({
-      ...state,
-      bill,
-    })),
-  setClothes: (clothes) =>
-    set((state) => ({
-      ...state,
-      clothes,
-    })),
-  setTransport: (transport) =>
-    set((state) => ({
-      ...state,
-      transport,
-    })),
-  setHealth: (health) =>
-    set((state) => ({
-      ...state,
-      health,
-    })),
-  setEntertainment: (entertainment) =>
-    set((state) => ({
-      ...state,
-      entertainment,
-    })),
-  setSalary: (salary) =>
-    set((state) => ({
-      ...state,
-      salary,
-    })),
-  setSideJob: (sideJob) =>
-    set((state) => ({
-      ...state,
-      sideJob,
-    })),
-  setInvestment: (investment) =>
-    set((state) => ({
-      ...state,
-      investment,
-    })),
-
-  resetToDoFormExpenses: () =>
-    set((state) => ({
-      ...state,
-      rent: "",
-      kitchen: "",
-      bill: "",
-      clothes: "",
-      transport: "",
-      health: "",
-      entertainment: "",
-    })),
-  resetToDoFormIncomes: () =>
-    set((state) => ({
-      ...state,
-      salary: "",
-      sideJob: "",
-      investment: "",
-    })),
-  addExpenses: (item) => {
+  addExpense: (item) => {
     set((state) => ({
       expenses: [...state.expenses, item],
     }));
-    get().resetToDoFormExpenses();
   },
-  addIncomes: (item) => {
+  addIncome: (item) => {
     set((state) => ({
       incomes: [...state.incomes, item],
     }));
-    get().resetToDoFormIncomes();
   },
   totalExpenses: () => {
     return get().expenses.reduce((total, expense) => {
-      return (
-        total +
-        Number(expense.rent) +
-        Number(expense.kitchen) +
-        Number(expense.bill) +
-        Number(expense.clothes) +
-        Number(expense.transport) +
-        Number(expense.health) +
-        Number(expense.entertainment)
-      );
+      return expense.amount;
     }, 0);
   },
   totalIncomes: () => {
     return get().incomes.reduce((total, income) => {
-      return (
-        total +
-        Number(income.salary) +
-        Number(income.sideJob) +
-        Number(income.investment)
-      );
+      return income.amount;
     }, 0);
   },
 }));
