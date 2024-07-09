@@ -1,27 +1,17 @@
 import React from "react";
 import { useDataStore } from "./Store";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
   Tooltip,
-  Legend,
-} from "chart.js";
+  ResponsiveContainer,
+  CartesianGrid,
+  Label,
+} from "recharts";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-function LineGraph() {
+function AreaGraph() {
   const { expenses, incomes } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
@@ -33,70 +23,106 @@ function LineGraph() {
   const incomescategories = incomes.map((income) => income.category);
   const incomesamounts = incomes.map((income) => parseFloat(income.amount));
 
-  const backgroundPlugin = {
-    id: "customCanvasBackgroundColor",
-    beforeDraw: (chart) => {
-      const ctx = chart.canvas.getContext("2d");
-      ctx.save();
-      ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = "#0a0f26";
-      ctx.fillRect(0, 0, chart.width, chart.height);
-      ctx.restore();
-    },
+  const dataExpenses = expensescategories.length
+    ? expensescategories.map((category, index) => ({
+        category,
+        amount: expensesamounts[index],
+      }))
+    : [{ category: "No Data", amount: 0 }];
+
+  const dataIncomes = incomescategories.length
+    ? incomescategories.map((category, index) => ({
+        category,
+        amount: incomesamounts[index],
+      }))
+    : [{ category: "No Data", amount: 0 }];
+
+  const getMaxValue = (data) => Math.max(...data.map((d) => d.amount));
+
+  const maxExpensesValue = getMaxValue(dataExpenses);
+  const maxIncomesValue = getMaxValue(dataIncomes);
+
+  const CustomizedAxisTick = (props) => {
+    const { x, y, payload } = props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="end"
+          fill="#666"
+          transform="rotate(-35)"
+        >
+          {payload.value}
+        </text>
+      </g>
+    );
   };
-  const lineChartDataExpenses = {
-    labels: expensescategories,
-    datasets: [
-      {
-        label: "Expenses",
-        data: expensesamounts,
-        borderColor: "rgb(75, 192, 192)",
-      },
-    ],
-  };
-  const lineChartDataIncomes = {
-    labels: incomescategories,
-    datasets: [
-      {
-        label: "Incomes",
-        data: incomesamounts,
-        borderColor: "rgb(244, 164, 96)",
-      },
-    ],
-  };
-  const chartOptions = {
-    scales: {
-      y: {
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
-      },
-      x: {
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
-      },
-    },
-  };
+
   return (
-    <>
-      <div className="w-full">
-        <div className="mb-5">
-          <Line
-            data={lineChartDataExpenses}
-            plugins={[backgroundPlugin]}
-            options={chartOptions}
-          />
-        </div>
-        <div>
-          <Line
-            data={lineChartDataIncomes}
-            plugins={[backgroundPlugin]}
-            options={chartOptions}
-          />
-        </div>
+    <div className="w-full">
+      <div className="mb-5">
+        <ResponsiveContainer
+          width="100%"
+          height={300}
+          className="bg-customBgColor p-3"
+        >
+          <AreaChart data={dataExpenses} className="mt-3">
+            <CartesianGrid
+              stroke="#f5f5f5"
+              strokeWidth={1}
+              strokeDasharray="3 3"
+            />
+            <XAxis
+              dataKey="category"
+              height={60}
+              tick={<CustomizedAxisTick />}
+            />
+
+            <YAxis domain={[0, maxExpensesValue + 30]} />
+            <Tooltip />
+            <Area
+              type="monotone"
+              dataKey="amount"
+              stroke="#583ca2"
+              fill="#583ca2"
+            />
+          </AreaChart>
+          <Label value="Custom Label" position="top" />
+        </ResponsiveContainer>
       </div>
-    </>
+      <div>
+        <ResponsiveContainer
+          width="100%"
+          height={300}
+          className="bg-customBgColor p-3"
+        >
+          <AreaChart data={dataIncomes} className="mt-3">
+            <CartesianGrid
+              stroke="#f5f5f5"
+              strokeWidth={1}
+              strokeDasharray="3 3"
+            />
+            <XAxis
+              dataKey="category"
+              height={60}
+              tick={<CustomizedAxisTick />}
+            />
+            <YAxis domain={[0, maxIncomesValue + 30]} />
+            <Tooltip />
+            <Area
+              type="monotone"
+              dataKey="amount"
+              stroke="#26539e"
+              fill="#26539e"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 }
-export default LineGraph;
+
+export default AreaGraph;
