@@ -5,36 +5,21 @@ import { Pie } from "react-chartjs-2";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 function PieChart() {
-  const { expenses } = useDataStore((state) => ({
+  const { expenses, categories } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
     totalExpenses: state.totalExpenses(),
     totalIncomes: state.totalIncomes(),
   }));
-  let expensesItem = expenses && expenses.length > 0 ? expenses[0] : {};
 
+  const expensescategories = expenses.map((expense) => expense.category);
+  const expensesamounts = expenses.map((expense) => parseFloat(expense.amount));
   const pieChartDataExpenses = {
-    labels: [
-      "rent",
-      "kitchen",
-      "bill",
-      "clothes",
-      "transport",
-      "health",
-      "entertainment",
-    ],
+    labels: expensescategories,
     datasets: [
       {
         label: "Expenses",
-        data: [
-          expensesItem.rent || 0,
-          expensesItem.kitchen || 0,
-          expensesItem.bill || 0,
-          expensesItem.clothes || 0,
-          expensesItem.transport || 0,
-          expensesItem.health || 0,
-          expensesItem.entertainment || 0,
-        ],
+        data: expensesamounts,
         backgroundColor: [
           "rgba(75, 192, 192, 0.9)",
           "rgba(255, 99, 132, 0.9)",
