@@ -3,10 +3,8 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
-  categories: ["rent", "kitchen", "bill", "salary", "sideJob"],
-  salary: "",
-  sideJob: "",
-  investment: "",
+
+  categories: ["Rent", "Kitchen", "Bill", "Salary", "SideJob"],
   addCategory: (category) =>
     set((state) => ({ categories: [...state.categories, category] })),
 
@@ -21,13 +19,27 @@ export const useDataStore = create((set, get) => ({
     }));
   },
   totalExpenses: () => {
-    return get().expenses.reduce((total, expense) => {
-      return expense.amount;
-    }, 0);
+    const expenses = get().expenses;
+    let total = 0;
+
+    expenses.forEach((expense) => {
+      // Convert amount from string to number
+      const amount = parseFloat(expense.amount);
+      // Add converted value to total value
+      total += amount;
+    });
+
+    return total;
   },
   totalIncomes: () => {
-    return get().incomes.reduce((total, income) => {
-      return income.amount;
-    }, 0);
+    const incomes = get().incomes;
+    let total = 0;
+
+    incomes.forEach((income) => {
+      const amount = parseFloat(income.amount);
+      total += amount;
+    });
+
+    return total;
   },
 }));
