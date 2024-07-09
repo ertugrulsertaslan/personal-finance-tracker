@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 function Menu() {
   return (
     <>
-      <div className="w-full flex flex-col h-full p-5 shadow-lg">
+      <div className="w-full flex flex-col h-full p-5 shadow-lg text-white">
         <div className="flex-grow">
           <div className="w-full">
             <h2 className="text-2xl font-bold p-10">Personal Finance</h2>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`}>
+            <Link to={`/`}>
               <button className="font-bold p-3 mt-5 text-sm">Overview</button>
             </Link>
           </div>
