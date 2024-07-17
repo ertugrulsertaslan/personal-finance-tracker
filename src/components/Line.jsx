@@ -66,7 +66,7 @@ function AreaGraph() {
       <div className="mb-5">
         <ResponsiveContainer
           width="100%"
-          height={300}
+          height={200}
           className="bg-customBgColor p-3"
         >
           <AreaChart data={dataExpenses} className="mt-3">
@@ -96,7 +96,7 @@ function AreaGraph() {
       <div>
         <ResponsiveContainer
           width="100%"
-          height={300}
+          height={200}
           className="bg-customBgColor p-3"
         >
           <AreaChart data={dataIncomes} className="mt-3">

@@ -5,7 +5,7 @@ function Menu() {
       <div className="w-full flex flex-col h-full p-5 shadow-lg text-white">
         <div className="flex-grow">
           <div className="w-full">
-            <h2 className="text-2xl font-bold p-10">Personal Finance</h2>
+            <h2 className="text-2xl font-bold p-5">Personal Finance</h2>
           </div>
           <div className="w-full">
             <Link to={`/`}>

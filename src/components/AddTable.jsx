@@ -55,8 +55,8 @@ export default function addExpenses() {
   }));
   return (
     <>
-      <div className="w-full flex  justify-center items-center h-full">
-        <div className="w-1/2 bg-customBgColor p-5">
+      <div className="w-full flex justify-center text-center items-center h-full">
+        <div className="w-2/3 bg-customBgColor p-5">
           <div>
             <h2 className="font-bold text-2xl m-10 text-white">Data</h2>
           </div>
@@ -66,12 +66,12 @@ export default function addExpenses() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Amount"
-              className="h-8 w-48 m-5 p-2"
+              className="h-8 w-11/12 m-5 p-2"
             />
           </div>
           <div>
             <select
-              className="h-8 w-48 m-5 p-1"
+              className="h-8 w-11/12 m-5 p-1"
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
@@ -81,14 +81,14 @@ export default function addExpenses() {
           </div>
           <div>
             <Select
-              className="m-5 text-wrap"
+              className="m-5 w-11/12 text-wrap"
               options={customOptions}
               isClearable
               onChange={handleCategoryChange}
               onInputChange={handleInputChange}
               onKeyDown={handleKeyDown}
               inputValue={customInputValue}
-              placeholder="Select or Write new category and press enter"
+              placeholder="Select or Write"
             />
           </div>
           <div>
