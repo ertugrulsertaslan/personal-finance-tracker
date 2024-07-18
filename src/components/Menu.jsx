@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 function Menu() {
   return (
     <>
-      <div className="w-full flex flex-col h-full p-5 shadow-lg text-white">
+      <div className="w-full flex flex-col h-full p-5 shadow-lg text-white text-center md:text-left">
         <div className="flex-grow">
           <div className="w-full">
             <h2 className="text-2xl font-bold p-5">Personal Finance</h2>
