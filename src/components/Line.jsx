@@ -12,35 +12,24 @@ import {
 } from "recharts";
 
 function AreaGraph() {
-  const { expenses, incomes } = useDataStore((state) => ({
+  const {
+    expenses,
+    incomes,
+    groupExpensesByMonth,
+    groupIncomesByMonth,
+    maxExpenseAmount,
+  } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
+    groupExpensesByMonth: state.groupExpensesByMonth,
+    groupIncomesByMonth: state.groupIncomesByMonth,
+    maxExpenseAmount: state.maxExpenseAmount,
   }));
 
-  const expensescategories = expenses.map((expense) => expense.category);
-  const expensesamounts = expenses.map((expense) => parseFloat(expense.amount));
+  const groupedExpenses = groupExpensesByMonth(expenses);
+  const groupedIncomes = groupIncomesByMonth(incomes);
 
-  const incomescategories = incomes.map((income) => income.category);
-  const incomesamounts = incomes.map((income) => parseFloat(income.amount));
-
-  const dataExpenses = expensescategories.length
-    ? expensescategories.map((category, index) => ({
-        category,
-        amount: expensesamounts[index],
-      }))
-    : [{ category: "No Data", amount: 0 }];
-
-  const dataIncomes = incomescategories.length
-    ? incomescategories.map((category, index) => ({
-        category,
-        amount: incomesamounts[index],
-      }))
-    : [{ category: "No Data", amount: 0 }];
-
-  const getMaxValue = (data) => Math.max(...data.map((d) => d.amount));
-
-  const maxExpensesValue = getMaxValue(dataExpenses);
-  const maxIncomesValue = getMaxValue(dataIncomes);
+  const maxExpensesValue = maxExpenseAmount();
 
   const CustomizedAxisTick = (props) => {
     const { x, y, payload } = props;
@@ -69,19 +58,15 @@ function AreaGraph() {
           height={200}
           className="bg-customBgColor p-3"
         >
-          <AreaChart data={dataExpenses} className="mt-3">
+          <AreaChart data={groupedExpenses} className="mt-3">
             <CartesianGrid
               stroke="#f5f5f5"
               strokeWidth={1}
               strokeDasharray="3 3"
             />
-            <XAxis
-              dataKey="category"
-              height={60}
-              tick={<CustomizedAxisTick />}
-            />
+            <XAxis dataKey="month" height={60} tick={<CustomizedAxisTick />} />
 
-            <YAxis domain={[0, maxExpensesValue + 30]} />
+            <YAxis domain={[0, maxExpensesValue + 100]} />
             <Tooltip />
             <Area
               type="monotone"
@@ -93,24 +78,20 @@ function AreaGraph() {
           <Label value="Custom Label" position="top" />
         </ResponsiveContainer>
       </div>
-      <div>
+      <div className="mb-5">
         <ResponsiveContainer
           width="100%"
           height={200}
           className="bg-customBgColor p-3"
         >
-          <AreaChart data={dataIncomes} className="mt-3">
+          <AreaChart data={groupedIncomes} className="mt-2">
             <CartesianGrid
               stroke="#f5f5f5"
               strokeWidth={1}
               strokeDasharray="3 3"
             />
-            <XAxis
-              dataKey="category"
-              height={60}
-              tick={<CustomizedAxisTick />}
-            />
-            <YAxis domain={[0, maxIncomesValue + 30]} />
+            <XAxis dataKey="month" height={60} tick={<CustomizedAxisTick />} />
+            <YAxis domain={[0, maxExpensesValue + 100]} />
             <Tooltip />
             <Area
               type="monotone"
@@ -119,6 +100,7 @@ function AreaGraph() {
               fill="#26539e"
             />
           </AreaChart>
+          <Label value="Custom Label" position="top" />
         </ResponsiveContainer>
       </div>
     </div>

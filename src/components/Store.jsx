@@ -3,8 +3,71 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
-
+  months: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
   categories: ["Rent", "Kitchen", "Bill", "Salary", "SideJob"],
+  groupExpensesByMonth: () => {
+    const grouped = get().expenses.reduce((acc, expense) => {
+      const { month, amount } = expense;
+      if (!acc[month]) {
+        acc[month] = 0;
+      }
+      acc[month] += parseFloat(amount);
+      return acc;
+    }, {});
+
+    get().months.forEach((month) => {
+      if (!grouped[month]) {
+        grouped[month] = 0;
+      }
+    });
+    return get().months.map((month) => ({
+      month,
+      amount: grouped[month],
+    }));
+  },
+  groupIncomesByMonth: () => {
+    const grouped = get().incomes.reduce((acc, income) => {
+      const { month, amount } = income;
+      if (!acc[month]) {
+        acc[month] = 0;
+      }
+
+      acc[month] += parseFloat(amount);
+
+      return acc;
+    }, {});
+
+    get().months.forEach((month) => {
+      if (!grouped[month]) {
+        grouped[month] = 0;
+      }
+    });
+    return get().months.map((month) => ({
+      month,
+      amount: grouped[month],
+    }));
+  },
+  maxExpenseAmount: () => {
+    let maxAmount =
+      get().expenses.length > 0
+        ? Math.max(...get().expenses.map((expense) => expense.amount))
+        : 0;
+
+    return maxAmount;
+  },
   addCategory: (category) =>
     set((state) => ({ categories: [...state.categories, category] })),
 
@@ -23,9 +86,7 @@ export const useDataStore = create((set, get) => ({
     let total = 0;
 
     expenses.forEach((expense) => {
-      // Convert amount from string to number
       const amount = parseFloat(expense.amount);
-      // Add converted value to total value
       total += amount;
     });
 
