@@ -13,6 +13,15 @@ export default function addExpenses() {
   const [customInputValue, setCustomInputValue] = useState("");
 
   const handleAddTransaction = () => {
+    if (customInputValue.trim() !== "") {
+      const newCategory = customInputValue.trim();
+      if (!categories.includes(newCategory)) {
+        addCategory(newCategory);
+        setCategory(newCategory);
+        setSelectedOption({ label: newCategory, value: newCategory });
+        setCustomInputValue("");
+      }
+    }
     if (amount > 0) {
       if (type === "income") {
         addIncome({ amount, category });
@@ -37,22 +46,13 @@ export default function addExpenses() {
     setCustomInputValue(inputValue);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" && customInputValue.trim() !== "") {
-      const newCategory = customInputValue.trim();
-      if (!categories.includes(newCategory)) {
-        addCategory(newCategory);
-        setCategory(newCategory);
-        setSelectedOption({ label: newCategory, value: newCategory });
-        setCustomInputValue("");
-      }
-    }
-  };
-
   const customOptions = categories.map((cat) => ({
     label: cat,
     value: cat,
   }));
+  const noOptionsMessage = () => {
+    return customInputValue.trim() === "" ? "" : null;
+  };
   return (
     <>
       <div className="w-full flex justify-center text-center items-center h-full">
@@ -86,9 +86,9 @@ export default function addExpenses() {
               isClearable
               onChange={handleCategoryChange}
               onInputChange={handleInputChange}
-              onKeyDown={handleKeyDown}
               inputValue={customInputValue}
               placeholder="Select or Write"
+              noOptionsMessage={noOptionsMessage}
             />
           </div>
           <div>
