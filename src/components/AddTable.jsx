@@ -17,14 +17,14 @@ export default function addExpenses() {
   const [startDate, setStartDate] = useState(new Date());
 
   const month = months[startDate.getMonth()];
-  console.log(month);
+  const year = startDate.getFullYear();
 
   const handleAddTransaction = () => {
     if (amount > 0) {
       if (type === "income") {
-        addIncome({ amount, category, month });
+        addIncome({ amount, category, month, year });
       } else {
-        addExpense({ amount, category, month });
+        addExpense({ amount, category, month, year });
       }
     } else {
       console.log("please enter amount");
@@ -58,7 +58,7 @@ export default function addExpenses() {
   return (
     <>
       <div className="w-full flex justify-center text-center items-center h-full">
-        <div className="w-full md:w-2/3 lg:w-1/2 bg-customBgColor p-5">
+        <div className="w-full md:w-2/3 lg:w-1/2 bg-customLineColor p-5">
           <div>
             <h2 className="font-bold text-2xl m-10 text-white">Data</h2>
           </div>
@@ -96,7 +96,7 @@ export default function addExpenses() {
               }
             />
           </div>
-          <div>
+          <div className="mb-5">
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
