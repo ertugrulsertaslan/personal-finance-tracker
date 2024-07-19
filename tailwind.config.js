@@ -4,8 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        customBgColor: "#060d20",
         customDashboardColor: "#010416",
+        customBgColor: "#f7f8fa",
+        customEmojiBgColor: "#eaf2f8",
+        customRangeColor: "#ecf1f5",
+        customLineColor: "#266df1",
       },
     },
   },
