@@ -4,7 +4,7 @@ import Menu from "./Menu.jsx";
 function HomePage() {
   return (
     <>
-      <div className="bg-customDashboardColor min-h-screen">
+      <div className="bg-customBgColor min-h-screen">
         <div className="container mx-auto p-5">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 md:col-span-3">
