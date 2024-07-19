@@ -1,25 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDataStore } from "./Store";
-import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
+import { Chart as ChartJS, Tooltip, Legend, ArcElement, Title } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
-ChartJS.register(Tooltip, Legend, ArcElement);
+ChartJS.register(Tooltip, Legend, ArcElement, Title);
+
 function PieChart() {
-  const { expenses, categories } = useDataStore((state) => ({
+  const { expenses, incomes, months } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
-    totalExpenses: state.totalExpenses(),
-    totalIncomes: state.totalIncomes(),
+    months: state.months,
   }));
 
-  const expensescategories = expenses.map((expense) => expense.category);
-  const expensesamounts = expenses.map((expense) => parseFloat(expense.amount));
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectType, setSelectType] = useState(true);
+  const [date, setDate] = useState(new Date().getMonth());
+
+  const currentDate = months[date];
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  const filteredExpenses = selectedMonth
+    ? expenses.filter((expense) => expense.month === selectedMonth)
+    : expenses;
+
+  const expensesCategories = filteredExpenses.map(
+    (expense) => expense.category
+  );
+  const expensesAmounts = filteredExpenses.map((expense) =>
+    parseFloat(expense.amount)
+  );
+  let totalExpenses = 0;
+  expensesAmounts.forEach(function (element) {
+    totalExpenses += Number(element);
+  });
+
+  const filteredIncomes = selectedMonth
+    ? incomes.filter((income) => income.month === selectedMonth)
+    : incomes;
+
+  const IncomesCategories = filteredIncomes.map((income) => income.category);
+  const IncomesAmounts = filteredIncomes.map((expense) =>
+    parseFloat(expense.amount)
+  );
+  let totalIncomes = 0;
+  IncomesAmounts.forEach(function (element) {
+    totalIncomes += Number(element);
+  });
+
   const pieChartDataExpenses = {
-    labels: expensescategories,
+    labels: selectType ? expensesCategories : IncomesCategories,
     datasets: [
       {
-        label: "Expenses",
-        data: expensesamounts,
+        label: selectType ? "Expense" : "Income",
+        data: selectType ? expensesAmounts : IncomesAmounts,
         backgroundColor: [
           "rgba(75, 192, 192, 0.9)",
           "rgba(255, 99, 132, 0.9)",
@@ -33,19 +68,77 @@ function PieChart() {
       },
     ],
   };
+
   const options = {
     plugins: {
       legend: {
         display: false,
       },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const { label, raw } = tooltipItem;
+            const percentage = (
+              (raw / expensesAmounts.reduce((a, b) => a + b, 0)) *
+              100
+            ).toFixed(2);
+            return `${label}: ${percentage}% (${raw})`;
+          },
+        },
+      },
+      datalabels: {
+        formatter: (value, context) => {
+          const total =
+            context.dataset._meta[Object.keys(context.dataset._meta)[0]].total;
+          const percentage = ((value / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+        color: "#fff",
+      },
     },
   };
+
   return (
-    <>
-      <div className="w-40">
+    <div className="w-full p-5">
+      <div className="flex justify-between">
+        <div>
+          <h5 className="font-bold">Statistics</h5>
+        </div>
+        <div>
+          <select
+            id="month"
+            className="p-1 rounded border-2 text-sm text-gray-500"
+            onChange={handleMonthChange}
+            value={selectedMonth}
+          >
+            <option value={currentDate}>This Month</option>
+            {months.map((month, index) => (
+              <option key={index} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="w-full flex justify-between mt-4">
+        <button
+          onClick={() => setSelectType(false)}
+          className="w-1/2 focus:border-b-2 border-customLineColor text-gray-400 p-1 focus:font-bold focus:text-black"
+        >
+          Income ${totalIncomes}
+        </button>
+        <button
+          onClick={() => setSelectType(true)}
+          className="w-1/2 focus:border-b-2 border-customLineColor text-gray-400 p-1 focus:font-bold focus:text-black"
+        >
+          Expense ${totalExpenses}
+        </button>
+      </div>
+      <div className="flex justify-center w-full h-48 mt-10">
         <Pie data={pieChartDataExpenses} options={options} />
       </div>
-    </>
+    </div>
   );
 }
+
 export default PieChart;
