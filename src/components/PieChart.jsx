@@ -79,7 +79,7 @@ function PieChart() {
           label: function (tooltipItem) {
             const { label, raw } = tooltipItem;
             const percentage = (
-              (raw / expensesAmounts.reduce((a, b) => a + b, 0)) *
+              (raw / tooltipItem.dataset.data.reduce((a, b) => a + b, 0)) *
               100
             ).toFixed(2);
             return `${label}: ${percentage}% (${raw})`;
