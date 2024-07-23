@@ -12,9 +12,18 @@ import {
 } from "recharts";
 
 function AreaGraph() {
-  const { expenses, incomes } = useDataStore((state) => ({
+  const {
+    expenses,
+    incomes,
+    totalExpenses,
+    totalIncomes,
+    calculateTotalPrice,
+  } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
+    totalExpenses: state.totalExpenses(),
+    totalIncomes: state.totalIncomes(),
+    calculateTotalPrice: state.calculateTotalPrice(),
   }));
   const [selectedYear, setSelectedYear] = useState("");
 
@@ -98,14 +107,18 @@ function AreaGraph() {
     <div className="w-full p-4">
       <div className="flex justify-between">
         <div>
-          <h5 className="font-bold mb-2">Cashflow</h5>
-          <p className="text-gray-700 text-sm">Total Balance</p>
-          <h5 className="font-bold text-2xl">$48,029.00</h5>
+          <h5 className="font-semibold mb-2">Cashflow</h5>
+          <p className="text-gray-400 text-xs">Total Balance</p>
+          <h5 className="font-bold text-xl">
+            {totalExpenses && totalExpenses > totalIncomes
+              ? `${calculateTotalPrice}`
+              : `${calculateTotalPrice}`}
+          </h5>
         </div>
         <div>
           <select
             id="year"
-            className="p-1 rounded border-2 text-sm text-gray-500"
+            className="p-1 rounded border-2 text-xs text-gray-500"
             onChange={handleYearChange}
             value={selectedYear}
           >

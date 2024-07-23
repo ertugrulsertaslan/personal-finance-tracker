@@ -3,6 +3,17 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
+  totalPrice: 0,
+  calculateTotalPrice: () => {
+    const totalIncome = get().totalIncomes();
+    const totalExpense = get().totalExpenses();
+    const totalPrice = totalIncome - totalExpense;
+    if (totalPrice >= 0) {
+      return `$${totalPrice}`;
+    } else {
+      return `-$${Math.abs(totalPrice)}`;
+    }
+  },
   months: [
     "Jan",
     "Feb",
@@ -17,7 +28,15 @@ export const useDataStore = create((set, get) => ({
     "Nov",
     "Dec",
   ],
+  categoryIcons: {
+    Rent: "fluent-emoji-flat:house-with-garden",
+    Kitchen: "noto:pot-of-food",
+    Bill: "icon-park:bill",
+    Salary: "emojione:money-bag",
+    SideJob: "flat-color-icons:money-transfer",
+  },
   categories: ["Rent", "Kitchen", "Bill", "Salary", "SideJob"],
+
   groupExpensesByMonth: () => {
     const grouped = get().expenses.reduce((acc, expense) => {
       const { month, amount } = expense;

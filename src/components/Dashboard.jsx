@@ -2,89 +2,112 @@ import LineGraph from "./Line.jsx";
 import { useDataStore } from "./Store.jsx";
 import PieChart from "./PieChart.jsx";
 import Menu from "./Menu.jsx";
-import PriceChangeRoundedIcon from "@mui/icons-material/PriceChangeRounded";
+import { Icon } from "@iconify/react";
 
 export default function Dashboard() {
-  const { expenses, totalExpenses } = useDataStore((state) => ({
+  const {
+    expenses,
+    incomes,
+    totalExpenses,
+    totalIncomes,
+    calculateTotalPrice,
+    categoryIcons,
+    getSortedCombinedItems,
+  } = useDataStore((state) => ({
     expenses: state.expenses,
+    incomes: state.incomes,
     totalExpenses: state.totalExpenses(),
+    totalIncomes: state.totalIncomes(),
+    calculateTotalPrice: state.calculateTotalPrice(),
+    categoryIcons: state.categoryIcons,
   }));
+  const combinedList = [
+    ...expenses.map((item) => ({ ...item, type: "expense" })),
+    ...incomes.map((item) => ({ ...item, type: "income" })),
+  ];
+  combinedList.sort((a, b) => {
+    const dateA = new Date(`${a.year}-${a.month}-01`);
+    const dateB = new Date(`${b.year}-${b.month}-01`);
+    return dateA - dateB;
+  });
 
   return (
     <>
       <div className="bg-customBgColor h-screen">
         <div className="container mx-auto p-2">
           <div className="w-full grid grid-cols-12 gap-4 bg-customBgColor">
-            <div className="col-span-12 md:col-span-2 bg-customBgColor">
+            <div className="col-span-12 md:col-span-2">
               <Menu />
             </div>
             <div className="col-span-12 md:col-span-10">
               <div className="grid grid-cols-6 grid-rows-1 gap-4">
                 <div className="col-span-6 md:col-span-4 bg-customBgColor">
-                  <div className="bg-white rounded">
+                  <div className="bg-white rounded-xl border">
                     <LineGraph />
                   </div>
-                  <div className="flex justify-center md:justify-between bg-white mt-5 rounded">
+                  <div className="w-full flex justify-between bg-white mt-5 rounded-xl border">
                     <div className="grid grid-cols-4">
-                      <div className="col-span-4 md:col-span-2">
-                        <div className="ml-5 mt-2">
-                          <h5 className="mb-2 font-bold">Saving</h5>
-                          <p className="text-gray-400 text-sm">Total Balance</p>
-                          <h2 className="text-2xl font-bold mb-3">
-                            $25,000.00
+                      <div className="col-span-4 md:col-span-2 ml-5 mr-6">
+                        <div className="mt-4 ml-3">
+                          <h5 className="font-semibold mb-2">Savings</h5>
+                          <p className="text-gray-400 text-xs">Total Balance</p>
+                          <h2 className="text-xl font-bold mb-3">
+                            {totalExpenses && totalExpenses > totalIncomes
+                              ? `${calculateTotalPrice}`
+                              : `${calculateTotalPrice}`}
                           </h2>
-                          <div className="space-y-1 mt-2">
-                            <div className="flex p-3 border rounded">
+                          <div className="space-y-1 mt-2 mb-1">
+                            <div className="flex p-3 border rounded border-gray-100">
                               <div className="flex flex-wrap">
                                 <div className=" mr-5 p-2 rounded-xl bg-customEmojiBgColor">
                                   ✈️
                                 </div>
-                                <div className="mr-3">
-                                  <p className="text-sm font-bold">Travel</p>
-                                  <p className="text-sm text-gray-400">
+                                <div className="mr-3 mt-1 text-xs">
+                                  <p className="font-semibold">Travel</p>
+                                  <p className="text-gray-400">
                                     Achieved in 2 months!
                                   </p>
                                 </div>
                                 <div className="p-2">
-                                  <h2 className="font-bold">$63,000</h2>
+                                  <h2 className="font-semibold">$63,000</h2>
                                 </div>
                                 <div className="w-full bg-customRangeColor h-1 mt-3">
                                   <div className="bg-customLineColor w-2/3 h-1"></div>
                                 </div>
                               </div>
                             </div>
-                            <div className="flex p-3 border rounded">
+                            <div className="flex p-3 border rounded border-gray-100">
                               <div className="flex flex-wrap">
                                 <div className=" mr-5 p-2 rounded-xl bg-customEmojiBgColor">
                                   💰
                                 </div>
-                                <div className="mr-3">
-                                  <p className="text-sm font-bold">Married</p>
-                                  <p className="text-sm text-gray-400">
+                                <div className="mr-3 mt-1 text-xs">
+                                  <p className="font-semibold">Married</p>
+                                  <p className="text-gray-400">
                                     Achieved in 6 months!
                                   </p>
                                 </div>
                                 <div className="p-2">
-                                  <h2 className="font-bold">$52,000</h2>
+                                  <h2 className="font-semibold">$52,000</h2>
                                 </div>
                                 <div className="w-full bg-customRangeColor h-1 mt-3">
                                   <div className="bg-customLineColor w-1/2 h-1"></div>
                                 </div>
                               </div>
                             </div>
-                            <div className="flex p-3 border rounded">
+                            <div className="flex p-3 border rounded border-gray-100">
                               <div className="flex flex-wrap">
                                 <div className=" mr-5 p-2 rounded-xl bg-customEmojiBgColor">
                                   🎓
                                 </div>
-                                <div className="mr-3">
-                                  <p className="text-sm font-bold">College</p>
-                                  <p className="text-sm text-gray-400">
+                                <div className="mr-3 mt-1 text-xs">
+                                  <p className="font-semibold">College</p>
+                                  <p className="text-gray-400">
                                     Achieved in 9 months!
                                   </p>
                                 </div>
                                 <div className="p-2">
-                                  <h2 className="font-bold">$42,000</h2>
+                                  <h2 className="font-semibold">$42,000</h2>
                                 </div>
                                 <div className="w-full bg-customRangeColor h-1 mt-3">
                                   <div className="bg-customLineColor w-1/3 h-1"></div>
@@ -102,34 +125,115 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-6 md:col-span-2 bg-white">
-                  <div className="grid grid-rows-1 gap-4">
-                    <div className="rounded-xl h-60 flex justify-center items-center">
-                      <img
-                        src="/src/assets/credit-card.png"
-                        alt=""
-                        className="w-full h-full object-contain"
-                      />
+                <div className="col-span-6 md:col-span-2 bg-white rounded-xl border">
+                  <div className="grid grid-rows-1 gap-2">
+                    <div className="rounded-xl h-70 flex-col justify-center items-center p-5">
+                      <div className="mb-5">
+                        <h5 className="font-semibold">Card</h5>
+                      </div>
+                      <div className="bg-customCardBgColor p-5 rounded-lg text-white ">
+                        <div className="space-y-5">
+                          <div className="flex justify-between text-xs">
+                            <p>Virtual card</p>
+                            <h5>
+                              <img src="/src/assets/card-image.png" alt="" />
+                            </h5>
+                          </div>
+                          <div>
+                            <p className="mb-1 font-thin text-xs">
+                              Total Balance
+                            </p>
+                            <p className=" text-2xl">
+                              {totalExpenses && totalExpenses > totalIncomes
+                                ? `${calculateTotalPrice}`
+                                : `${calculateTotalPrice}`}
+                            </p>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <p>2148 3214 9812 2687</p>
+                            <h5 className="font-myriad font-extrabold text-lg">
+                              VISA
+                            </h5>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-full flex justify-between mt-5 text-customCardBtnTextColor">
+                        <button className="bg-customCardBtnBgColor p-2 text-xs w-5/12 rounded-lg items-center flex justify-center font-medium">
+                          <Icon
+                            icon="heroicons:plus-16-solid"
+                            className="mt-0.5 mr-1"
+                          />
+                          Request
+                        </button>
+
+                        <button className="bg-customCardBtnBgColor p-2 text-xs w-5/12 rounded-lg items-center flex justify-center font-medium">
+                          <Icon
+                            icon="solar:arrow-up-linear"
+                            className="mt-0.5 mr-1"
+                          />
+                          Send
+                        </button>
+                      </div>
                     </div>
-                    <div className="ml-4">
-                      <h2 className="font-bold flex justify-center md:justify-start text-2xl mb-4">
+                    <div className="ml-3 p-5">
+                      <h2 className="font-semibold flex justify-center md:justify-start text-sm mb-4">
                         Recent Transactions
                       </h2>
-                      <div className="p-5 w-full h-[410px] overflow-hidden">
-                        <div className="space-y-4">
-                          {expenses.map((item, index) => (
+                      <div className="w-full h-[330px] overflow-hidden">
+                        <div className="space-y-1">
+                          <div className="flex justify-between text-xs border-b text-gray-400">
+                            <div className="flex mb-3">
+                              <p>Name</p>
+                              <Icon
+                                icon="ep:arrow-down"
+                                className="ml-1 mt-1"
+                              />
+                            </div>
+                            <div className="flex">
+                              <p>Date</p>
+                              <Icon
+                                icon="ep:arrow-down"
+                                className="ml-1 mt-1"
+                              />
+                            </div>
+
+                            <p>Amount</p>
+                          </div>
+                          {combinedList.map((item, index) => (
                             <div
-                              className="flex items-center w-full mb-4"
+                              className="flex items-center w-full border-b p-1"
                               key={index}
                             >
-                              <div className="w-14 mr-3">
-                                <PriceChangeRoundedIcon fontSize="large" />
+                              <div className="flex text-xs">
+                                <div className="mr-2">
+                                  <Icon
+                                    icon={categoryIcons[item.category]}
+                                    className="text-3xl"
+                                  />
+                                </div>
+                                <div>
+                                  <p className="mb-1">{item.category}</p>
+
+                                  <p className="text-gray-400 font-">
+                                    · · · 2687
+                                  </p>
+                                </div>
                               </div>
-                              <h3 className="flex-1 truncate">
-                                {item.category}
-                              </h3>
-                              <p className="text-red-600 font-bold">
-                                -${item.amount}
+                              <div className="ml-8 text-xs">
+                                <p>
+                                  {item.month} {item.year}
+                                </p>
+                              </div>
+                              <h3 className="flex-1 truncate"></h3>
+                              <p
+                                className={`font-bold text-xs ${
+                                  item.type === "expense"
+                                    ? "text-red-600"
+                                    : "text-green-600"
+                                }`}
+                              >
+                                {item.type === "expense" ? "- $" : "+ $"}
+                                {Math.abs(item.amount)}
                               </p>
                             </div>
                           ))}
