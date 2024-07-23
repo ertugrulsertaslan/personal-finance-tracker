@@ -99,15 +99,15 @@ function PieChart() {
   };
 
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-4">
       <div className="flex justify-between">
         <div>
-          <h5 className="font-bold">Statistics</h5>
+          <h5 className="font-semibold">Statistics</h5>
         </div>
         <div>
           <select
             id="month"
-            className="p-1 rounded border-2 text-sm text-gray-500"
+            className="p-1 rounded border-2 text-xs text-gray-500"
             onChange={handleMonthChange}
             value={selectedMonth}
           >
