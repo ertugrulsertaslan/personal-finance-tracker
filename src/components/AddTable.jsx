@@ -3,7 +3,7 @@ import { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { iconExists } from "@iconify/react";
 export default function addExpenses() {
   const { addIncome, addExpense, addCategory, categories, months } =
     useDataStore();
@@ -15,22 +15,35 @@ export default function addExpenses() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [customInputValue, setCustomInputValue] = useState("");
   const [startDate, setStartDate] = useState(new Date());
+  const [icon, setIcon] = useState("");
 
   const month = months[startDate.getMonth()];
   const year = startDate.getFullYear();
+  const day = startDate.getDate();
 
   const handleAddTransaction = () => {
     if (amount > 0) {
       if (type === "income") {
-        addIncome({ amount, category, month, year });
+        addIncome({ amount, category, month, year, icon, day });
       } else {
-        addExpense({ amount, category, month, year });
+        addExpense({ amount, category, month, year, icon, day });
       }
     } else {
       console.log("please enter amount");
     }
-
+    setIcon("");
     setAmount("");
+  };
+  const handleIconChange = (event) => {
+    const newIcon = event.target.value;
+    const iconn = `material-symbols:${newIcon}`; // or mdi:
+    const defaultIconKey = "home";
+
+    if (iconExists(iconn)) {
+      setIcon(newIcon);
+    } else {
+      setIcon(defaultIconKey);
+    }
   };
   const handleCategoryChange = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -80,6 +93,14 @@ export default function addExpenses() {
               <option value="income">Income</option>
               <option value="expense">Expense</option>
             </select>
+          </div>
+          <div>
+            <input
+              type="text"
+              onChange={handleIconChange}
+              placeholder="Write icon name"
+              className="h-8 w-11/12 m-5 p-2"
+            />
           </div>
           <div>
             <CreatableSelect

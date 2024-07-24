@@ -12,7 +12,6 @@ export default function Dashboard() {
     totalIncomes,
     calculateTotalPrice,
     categoryIcons,
-    getSortedCombinedItems,
   } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
@@ -26,8 +25,8 @@ export default function Dashboard() {
     ...incomes.map((item) => ({ ...item, type: "income" })),
   ];
   combinedList.sort((a, b) => {
-    const dateA = new Date(`${a.year}-${a.month}-01`);
-    const dateB = new Date(`${b.year}-${b.month}-01`);
+    const dateA = new Date(`${a.year}-${a.month}-${a.day}`);
+    const dateB = new Date(`${b.year}-${b.month}-${b.day}`);
     return dateA - dateB;
   });
 
@@ -207,8 +206,8 @@ export default function Dashboard() {
                               <div className="flex text-xs">
                                 <div className="mr-2">
                                   <Icon
-                                    icon={categoryIcons[item.category]}
-                                    className="text-3xl"
+                                    className="text-3xl text-customLineColor"
+                                    icon={`material-symbols:${item.icon}`} // or mdi:
                                   />
                                 </div>
                                 <div>
