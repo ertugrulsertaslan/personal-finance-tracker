@@ -4,9 +4,9 @@ import Menu from "./Menu.jsx";
 function HomePage() {
   return (
     <>
-      <div className="bg-customBgColor min-h-screen">
-        <div className="container mx-auto p-2">
-          <div className="grid grid-cols-12 gap-4">
+      <div className="bg-customBgColor h-screen">
+        <div className="container mx-auto">
+          <div className="w-full grid grid-cols-12 gap-4 h-screen p-2">
             <div className="col-span-12 md:col-span-3  xl:col-span-2">
               <Menu />
             </div>

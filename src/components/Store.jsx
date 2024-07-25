@@ -3,16 +3,14 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
-  totalPrice: 0,
+  sendAmount: 0,
+  setSendAmount: (amount) => set({ sendAmount: amount }),
   calculateTotalPrice: () => {
     const totalIncome = get().totalIncomes();
     const totalExpense = get().totalExpenses();
-    const totalPrice = totalIncome - totalExpense;
-    if (totalPrice >= 0) {
-      return `$${totalPrice}`;
-    } else {
-      return `-$${Math.abs(totalPrice)}`;
-    }
+    const sendAmounts = get().sendAmount;
+    const totalPrice = totalIncome - totalExpense - sendAmounts;
+    return totalPrice >= 0 ? `$${totalPrice}` : `-$${Math.abs(totalPrice)}`;
   },
   months: [
     "Jan",

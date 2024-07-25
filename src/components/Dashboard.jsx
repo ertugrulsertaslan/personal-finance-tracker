@@ -3,8 +3,28 @@ import { useDataStore } from "./Store.jsx";
 import PieChart from "./PieChart.jsx";
 import Menu from "./Menu.jsx";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
+import FirstModal from "./FirstModal.jsx";
+import SecondModal from "./SecondModal.jsx";
 
 export default function Dashboard() {
+  const [showFirstModal, setShowFirstModal] = useState(false);
+  const [showSecondModal, setShowSecondModal] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState(null);
+
+  const toggleFirstModal = () => {
+    setShowFirstModal(!showFirstModal);
+  };
+
+  const handleContinue = (person) => {
+    setSelectedPerson(person);
+    setShowFirstModal(false);
+    setShowSecondModal(true);
+  };
+
+  const closeSecondModal = () => {
+    setShowSecondModal(false);
+  };
   const {
     expenses,
     incomes,
@@ -164,14 +184,26 @@ export default function Dashboard() {
                           />
                           Request
                         </button>
-
-                        <button className="bg-customCardBtnBgColor p-2 text-xs w-5/12 rounded-lg items-center flex justify-center font-medium">
+                        <button
+                          onClick={toggleFirstModal}
+                          className="bg-customCardBtnBgColor p-2 text-xs w-5/12 rounded-lg items-center flex justify-center font-medium"
+                        >
                           <Icon
                             icon="solar:arrow-up-linear"
                             className="mt-0.5 mr-1"
                           />
                           Send
                         </button>
+                        <FirstModal
+                          show={showFirstModal}
+                          onClose={toggleFirstModal}
+                          onContinue={handleContinue}
+                        />
+                        <SecondModal
+                          show={showSecondModal}
+                          onClose={closeSecondModal}
+                          person={selectedPerson}
+                        />
                       </div>
                     </div>
                     <div className="ml-3 p-5">
@@ -220,7 +252,7 @@ export default function Dashboard() {
                               </div>
                               <div className="ml-8 text-xs">
                                 <p>
-                                  {item.month} {item.year}
+                                  {item.day} {item.month} {item.year}
                                 </p>
                               </div>
                               <h3 className="flex-1 truncate"></h3>
