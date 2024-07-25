@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        myriad: ["Myriad"],
+        myriad: ["Myriad", "sans-serif"],
+        sans: ["DM Sans", "sans-serif"],
       },
       colors: {
         customDashboardColor: "#010416",
