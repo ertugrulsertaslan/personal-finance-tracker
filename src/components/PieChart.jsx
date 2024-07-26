@@ -6,9 +6,10 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(Tooltip, Legend, ArcElement, Title);
 
 function PieChart() {
-  const { expenses, incomes, months } = useDataStore((state) => ({
+  const { expenses, incomes, months, sendMoneys } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
+    sendMoneys: state.sendMoneys,
     months: state.months,
   }));
 
@@ -25,12 +26,20 @@ function PieChart() {
     ? expenses.filter((expense) => expense.month === selectedMonth)
     : expenses;
 
-  const expensesCategories = filteredExpenses.map(
-    (expense) => expense.category
-  );
-  const expensesAmounts = filteredExpenses.map((expense) =>
-    parseFloat(expense.amount)
-  );
+  const additionalExpenses = selectedMonth
+    ? sendMoneys.filter((sendMoney) => sendMoney.month === selectedMonth)
+    : sendMoneys;
+
+  const allFilteredExpenses = [...filteredExpenses, ...additionalExpenses];
+
+  const expensesCategories = [
+    ...allFilteredExpenses.map((expense) => expense.category),
+  ];
+
+  const expensesAmounts = [
+    ...allFilteredExpenses.map((expense) => parseFloat(expense.amount)),
+  ];
+
   let totalExpenses = 0;
   expensesAmounts.forEach(function (element) {
     totalExpenses += Number(element);
