@@ -26,6 +26,7 @@ function AreaGraph() {
     calculateTotalPrice: state.calculateTotalPrice(),
   }));
   const [selectedYear, setSelectedYear] = useState("");
+  const currentDate = new Date().getFullYear();
 
   // Function that combines data by month and year
   const aggregateData = (data) => {
@@ -122,11 +123,11 @@ function AreaGraph() {
             onChange={handleYearChange}
             value={selectedYear}
           >
-            <option value="">This Year</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
+            <option value={currentDate}>This Year</option>
+            {aggregatedCombinedData &&
+              aggregatedCombinedData.map((item) => (
+                <option value={item.year}>{item.year}</option>
+              ))}
           </select>
         </div>
       </div>
