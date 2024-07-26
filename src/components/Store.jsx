@@ -3,13 +3,12 @@ import { create } from "zustand";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
-  sendAmount: 0,
-  setSendAmount: (amount) => set({ sendAmount: amount }),
+  sendMoneys: [],
   calculateTotalPrice: () => {
     const totalIncome = get().totalIncomes();
     const totalExpense = get().totalExpenses();
-    const sendAmounts = get().sendAmount;
-    const totalPrice = totalIncome - totalExpense - sendAmounts;
+    const totalSendMoney = get().totalSendMoney();
+    const totalPrice = totalIncome - totalExpense - totalSendMoney;
     return totalPrice >= 0 ? `$${totalPrice}` : `-$${Math.abs(totalPrice)}`;
   },
   months: [
@@ -93,6 +92,11 @@ export const useDataStore = create((set, get) => ({
       expenses: [...state.expenses, item],
     }));
   },
+  addSendMoney: (item) => {
+    set((state) => ({
+      sendMoneys: [...state.sendMoneys, item],
+    }));
+  },
   addIncome: (item) => {
     set((state) => ({
       incomes: [...state.incomes, item],
@@ -104,6 +108,17 @@ export const useDataStore = create((set, get) => ({
 
     expenses.forEach((expense) => {
       const amount = parseFloat(expense.amount);
+      total += amount;
+    });
+
+    return total;
+  },
+  totalSendMoney: () => {
+    const sendMoneys = get().sendMoneys;
+    let total = 0;
+
+    sendMoneys.forEach((sendMoney) => {
+      const amount = parseFloat(sendMoney.amount);
       total += amount;
     });
 

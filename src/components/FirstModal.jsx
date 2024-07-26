@@ -52,13 +52,11 @@ const FirstModal = ({ show, onClose, onContinue }) => {
           <div className="flex space-x-5 justify-between">
             {persons.map((person, index) => (
               <div
+                key={index}
                 onClick={() => onContinue(person)}
                 className="cursor-pointer space-y-2"
               >
-                <div
-                  className="text-center space-y-1 flex flex-col justify-center items-center"
-                  key={index}
-                >
+                <div className="text-center space-y-1 flex flex-col justify-center items-center">
                   <img src={person.img} alt="" className="w-12 rounded-full" />
                   <p>{person.name}</p>
                   <p>{person.phone}</p>

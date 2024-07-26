@@ -5,13 +5,20 @@ const SecondModal = ({ show, onClose, person }) => {
   if (!show) {
     return null;
   }
-  const setSendAmount = useDataStore((state) => state.setSendAmount);
+
+  const { addSendMoney, months } = useDataStore((state) => ({
+    addSendMoney: state.addSendMoney,
+    months: state.months,
+  }));
+
   const [totalAmount, setTotalAmount] = useState(0);
   const [Note, setNote] = useState("");
+  const [sendMonth, setSendMonth] = useState(new Date());
+  const month = months[sendMonth.getMonth()];
   const handlePayment = () => {
-    const amount = parseFloat(totalAmount);
+    const amount = totalAmount;
     if (amount > 0) {
-      setSendAmount(amount);
+      addSendMoney({ amount, month, category: "Send Money" });
       setTotalAmount(0);
       onClose();
     }
