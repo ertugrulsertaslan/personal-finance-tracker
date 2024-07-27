@@ -37,12 +37,9 @@ export default function addExpenses() {
   const handleIconChange = (event) => {
     const newIcon = event.target.value;
     const iconn = `material-symbols:${newIcon}`; // or mdi:
-    const defaultIconKey = "home";
 
     if (iconExists(iconn)) {
       setIcon(newIcon);
-    } else {
-      setIcon(defaultIconKey);
     }
   };
   const handleCategoryChange = (selectedOption) => {
