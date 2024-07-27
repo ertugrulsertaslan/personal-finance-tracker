@@ -20,13 +20,16 @@ export default function addExpenses() {
   const month = months[startDate.getMonth()];
   const year = startDate.getFullYear();
   const day = startDate.getDate();
+  const hour = startDate.getHours();
+  const minute = startDate.getMinutes();
+  const time = `${hour}:${minute}`;
 
   const handleAddTransaction = () => {
     if (amount > 0) {
       if (type === "income") {
-        addIncome({ amount, category, month, year, icon, day });
+        addIncome({ amount, category, month, year, icon, day, time });
       } else {
-        addExpense({ amount, category, month, year, icon, day });
+        addExpense({ amount, category, month, year, icon, day, time });
       }
     } else {
       console.log("please enter amount");

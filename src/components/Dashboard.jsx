@@ -57,8 +57,8 @@ export default function Dashboard() {
     ...sendMoneys.map((item) => ({ ...item, type: "expense" })),
   ];
   combinedList.sort((a, b) => {
-    const dateA = new Date(`${a.year}-${a.month}-${a.day}`);
-    const dateB = new Date(`${b.year}-${b.month}-${b.day}`);
+    const dateA = new Date(`${a.year}-${a.month}-${a.day}-${a.time}`);
+    const dateB = new Date(`${b.year}-${b.month}-${b.day}-${b.time}`);
     return dateB - dateA;
   });
 

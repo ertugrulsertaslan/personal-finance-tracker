@@ -17,6 +17,9 @@ const SecondModal = ({ show, onClose, person }) => {
   const month = months[sendDay.getMonth()];
   const year = sendDay.getFullYear();
   const day = sendDay.getDate();
+  const hour = sendDay.getHours();
+  const minute = sendDay.getMinutes();
+  const time = `${hour}:${minute}`;
 
   const handlePayment = () => {
     const amount = totalAmount;
@@ -28,6 +31,7 @@ const SecondModal = ({ show, onClose, person }) => {
         year,
         day,
         icon: "attach-money",
+        time,
       });
       setTotalAmount(0);
       onClose();
