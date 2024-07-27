@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useDataStore } from "./Store";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import html2canvas from "html2canvas";
 import {
   LineChart,
   Line,
@@ -8,19 +11,20 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
-  Label,
 } from "recharts";
 
 function AreaGraph() {
   const {
     expenses,
     incomes,
+    sendMoneys,
     totalExpenses,
     totalIncomes,
     calculateTotalPrice,
   } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
+    sendMoneys: state.sendMoneys,
     totalExpenses: state.totalExpenses(),
     totalIncomes: state.totalIncomes(),
     calculateTotalPrice: state.calculateTotalPrice(),
@@ -63,7 +67,64 @@ function AreaGraph() {
       expenseAmount: 0,
       incomeAmount: income.amount,
     })),
+    ...sendMoneys.map((sendMoney) => ({
+      month: sendMoney.month,
+      year: sendMoney.year,
+      expenseAmount: sendMoney.amount,
+      incomeAmount: 0,
+    })),
   ];
+  const combinedList = [
+    ...expenses.map((item) => ({ ...item, type: "expense" })),
+    ...incomes.map((item) => ({ ...item, type: "income" })),
+    ...sendMoneys.map((item) => ({ ...item, type: "expense" })),
+  ];
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    const columns = ["Category", "Type", "Date", "Amount"];
+    const data = combinedList.map((item) => [
+      item.category,
+      item.type,
+      `${item.day} ${item.month} ${item.year}`,
+      `${item.type === "expense" ? "-" : "+"} $${Math.abs(item.amount)}`,
+    ]);
+
+    doc.autoTable({
+      head: [columns],
+      body: data,
+      startY: 20,
+      margin: { horizontal: 10 },
+      theme: "striped",
+      headStyles: { fillColor: [0, 0, 0] },
+      styles: { fontSize: 10 },
+    });
+
+    const tableHeight = doc.autoTable.previous.finalY;
+
+    const chartStartY = tableHeight + 20;
+
+    const chartElement = document.getElementById("chart");
+
+    html2canvas(chartElement).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdfWidth = doc.internal.pageSize.getWidth() - 20;
+      const pdfHeight = doc.internal.pageSize.getHeight() - 40;
+
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+
+      let scaleFactor = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      let newWidth = imgWidth * scaleFactor;
+      let newHeight = imgHeight * scaleFactor;
+
+      let xPosition = (pdfWidth - newWidth) / 2;
+
+      doc.addImage(imgData, "PNG", xPosition, chartStartY, newWidth, newHeight);
+      doc.save("report.pdf");
+    });
+  };
 
   //Sum the combined data by month and year
   const aggregatedCombinedData = aggregateData(combinedData);
@@ -117,6 +178,14 @@ function AreaGraph() {
           </h5>
         </div>
         <div>
+          <button
+            className="text-red-500 border-2 p-2 text-xs font-semibold border-red-400"
+            onClick={generatePDF}
+          >
+            Download PDF
+          </button>
+        </div>
+        <div>
           <select
             id="year"
             className="p-1 rounded border-2 text-xs text-gray-500"
@@ -134,7 +203,12 @@ function AreaGraph() {
         </div>
       </div>
       <div>
-        <ResponsiveContainer width="100%" height={240} className="p-1">
+        <ResponsiveContainer
+          width="100%"
+          height={240}
+          className="p-1"
+          id="chart"
+        >
           <LineChart data={filteredData} className="mt-3 -ml-7">
             <CartesianGrid
               stroke="#f5f5f5"

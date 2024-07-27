@@ -3,11 +3,10 @@ import { useDataStore } from "./Store.jsx";
 import PieChart from "./PieChart.jsx";
 import Menu from "./Menu.jsx";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
 import FirstModal from "./FirstModal.jsx";
 import SecondModal from "./SecondModal.jsx";
 import RecentModal from "./RecentModal.jsx";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Dashboard() {
   const [showFirstModal, setShowFirstModal] = useState(false);
