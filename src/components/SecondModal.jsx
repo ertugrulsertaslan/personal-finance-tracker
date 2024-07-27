@@ -13,12 +13,22 @@ const SecondModal = ({ show, onClose, person }) => {
 
   const [totalAmount, setTotalAmount] = useState(0);
   const [Note, setNote] = useState("");
-  const [sendMonth, setSendMonth] = useState(new Date());
-  const month = months[sendMonth.getMonth()];
+  const [sendDay, setSendDay] = useState(new Date());
+  const month = months[sendDay.getMonth()];
+  const year = sendDay.getFullYear();
+  const day = sendDay.getDate();
+
   const handlePayment = () => {
     const amount = totalAmount;
     if (amount > 0) {
-      addSendMoney({ amount, month, category: "Send Money" });
+      addSendMoney({
+        amount,
+        month,
+        category: `${person.name} sent Money `,
+        year,
+        day,
+        icon: "attach-money",
+      });
       setTotalAmount(0);
       onClose();
     }
