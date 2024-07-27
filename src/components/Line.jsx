@@ -126,7 +126,9 @@ function AreaGraph() {
             <option value={currentDate}>This Year</option>
             {aggregatedCombinedData &&
               aggregatedCombinedData.map((item) => (
-                <option value={item.year}>{item.year}</option>
+                <option key={item.year} value={item.year}>
+                  {item.year}
+                </option>
               ))}
           </select>
         </div>
@@ -159,7 +161,6 @@ function AreaGraph() {
               fill="#1d85fd"
             />
           </LineChart>
-          <Label value="" position="top" />
         </ResponsiveContainer>
       </div>
     </div>

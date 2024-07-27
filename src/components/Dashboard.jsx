@@ -6,14 +6,20 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import FirstModal from "./FirstModal.jsx";
 import SecondModal from "./SecondModal.jsx";
+import RecentModal from "./RecentModal.jsx";
+import React from "react";
 
 export default function Dashboard() {
   const [showFirstModal, setShowFirstModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
+  const [showRecentModal, setShowRecentModal] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
 
   const toggleFirstModal = () => {
     setShowFirstModal(!showFirstModal);
+  };
+  const toggleRecentModal = () => {
+    setShowRecentModal(!showRecentModal);
   };
 
   const handleContinue = (person) => {
@@ -25,6 +31,9 @@ export default function Dashboard() {
   const closeSecondModal = () => {
     setShowSecondModal(false);
   };
+  const closeRecentModal = () => {
+    setShowRecentModal(false);
+  };
   const {
     expenses,
     incomes,
@@ -32,6 +41,7 @@ export default function Dashboard() {
     totalIncomes,
     calculateTotalPrice,
     categoryIcons,
+    sendMoneys,
   } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
@@ -39,15 +49,17 @@ export default function Dashboard() {
     totalIncomes: state.totalIncomes(),
     calculateTotalPrice: state.calculateTotalPrice(),
     categoryIcons: state.categoryIcons,
+    sendMoneys: state.sendMoneys,
   }));
   const combinedList = [
     ...expenses.map((item) => ({ ...item, type: "expense" })),
     ...incomes.map((item) => ({ ...item, type: "income" })),
+    ...sendMoneys.map((item) => ({ ...item, type: "expense" })),
   ];
   combinedList.sort((a, b) => {
     const dateA = new Date(`${a.year}-${a.month}-${a.day}`);
     const dateB = new Date(`${b.year}-${b.month}-${b.day}`);
-    return dateA - dateB;
+    return dateB - dateA;
   });
 
   return (
@@ -145,7 +157,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="col-span-6 md:col-span-2 bg-white rounded-xl border">
-                  <div className="grid grid-rows-1 gap-2">
+                  <div className="grid grid-rows-1">
                     <div className="rounded-xl h-70 flex-col justify-center items-center p-5">
                       <div className="mb-5">
                         <h5 className="font-semibold">Card</h5>
@@ -206,10 +218,20 @@ export default function Dashboard() {
                         />
                       </div>
                     </div>
-                    <div className="ml-3 p-5">
-                      <h2 className="font-semibold flex justify-center md:justify-start text-sm mb-4">
-                        Recent Transactions
-                      </h2>
+                    <div className="ml-3 p-5 border-t">
+                      <div className="flex justify-between text-sm mb-2 text-center items-center">
+                        <h2 className="font-semibold">Recent Transactions</h2>
+                        <button
+                          onClick={toggleRecentModal}
+                          className="font-semibold border px-2 py-1 text-xs"
+                        >
+                          Show all
+                        </button>
+                        <RecentModal
+                          show={showRecentModal}
+                          onClose={closeRecentModal}
+                        />
+                      </div>
                       <div className="w-full h-[330px] overflow-hidden">
                         <div className="space-y-1">
                           <div className="flex justify-between text-xs border-b text-gray-400">
@@ -232,17 +254,21 @@ export default function Dashboard() {
                           </div>
                           {combinedList.map((item, index) => (
                             <div
-                              className="flex items-center w-full border-b p-1"
+                              className="grid grid-cols-12 border-b p-1"
                               key={index}
                             >
-                              <div className="flex text-xs">
+                              <div className="col-span-5 text-xs flex">
                                 <div className="mr-2">
                                   <Icon
                                     className="text-3xl text-customLineColor"
-                                    icon={`material-symbols:${item.icon}`} // or mdi:
+                                    icon={
+                                      item.icon.trim()
+                                        ? `material-symbols:${item.icon}`
+                                        : `material-symbols:home`
+                                    } // or mdi:
                                   />
                                 </div>
-                                <div>
+                                <div className="w-12 overflow-hidden whitespace-nowrap text-ellipsis">
                                   <p className="mb-1">{item.category}</p>
 
                                   <p className="text-gray-400 font-">
@@ -250,22 +276,23 @@ export default function Dashboard() {
                                   </p>
                                 </div>
                               </div>
-                              <div className="ml-8 text-xs">
+                              <div className="col-span-4 text-xs">
                                 <p>
                                   {item.day} {item.month} {item.year}
                                 </p>
                               </div>
-                              <h3 className="flex-1 truncate"></h3>
-                              <p
-                                className={`font-bold text-xs ${
-                                  item.type === "expense"
-                                    ? "text-red-600"
-                                    : "text-green-600"
-                                }`}
-                              >
-                                {item.type === "expense" ? "- $" : "+ $"}
-                                {Math.abs(item.amount)}
-                              </p>
+                              <div className="col-span-3 flex justify-end">
+                                <p
+                                  className={`font-bold text-xs ${
+                                    item.type === "expense"
+                                      ? "text-red-600"
+                                      : "text-green-600"
+                                  }`}
+                                >
+                                  {item.type === "expense" ? "- $" : "+ $"}
+                                  {Math.abs(item.amount)}
+                                </p>
+                              </div>
                             </div>
                           ))}
                         </div>
