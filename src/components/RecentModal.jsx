@@ -20,6 +20,7 @@ const RecentModal = ({ show, onClose }) => {
   if (!show) {
     return null;
   }
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
@@ -43,11 +44,7 @@ const RecentModal = ({ show, onClose }) => {
                   <div className="mr-2">
                     <Icon
                       className="text-3xl text-customLineColor"
-                      icon={
-                        item.icon.trim()
-                          ? `material-symbols:${item.icon}`
-                          : `material-symbols:home`
-                      } // or mdi:
+                      icon={item.icon}
                     />
                   </div>
                   <div className="w-12 overflow-hidden whitespace-nowrap text-ellipsis">
