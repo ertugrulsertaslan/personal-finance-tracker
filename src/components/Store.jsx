@@ -1,5 +1,5 @@
 import { create } from "zustand";
-
+import { useState, useEffect } from "react";
 export const useDataStore = create((set, get) => ({
   incomes: [],
   expenses: [],
@@ -10,6 +10,20 @@ export const useDataStore = create((set, get) => ({
     const totalSendMoney = get().totalSendMoney();
     const totalPrice = totalIncome - totalExpense - totalSendMoney;
     return totalPrice >= 0 ? `$${totalPrice}` : `-$${Math.abs(totalPrice)}`;
+  },
+  useDebounce: (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+
+    return debouncedValue;
   },
   months: [
     "Jan",
