@@ -13,7 +13,7 @@ import {
   CartesianGrid,
 } from "recharts";
 
-function AreaGraph() {
+export default function AreaGraph() {
   const {
     expenses,
     incomes,
@@ -128,7 +128,10 @@ function AreaGraph() {
 
   //Sum the combined data by month and year
   const aggregatedCombinedData = aggregateData(combinedData);
-
+  const uniqueYears = [
+    ...new Set(aggregatedCombinedData.map((item) => item.year)),
+  ];
+  const sortedYears = uniqueYears.sort((a, b) => a - b);
   const filteredData = aggregatedCombinedData.filter((data) => {
     return selectedYear ? data.year.toString() === selectedYear : true;
   });
@@ -193,10 +196,10 @@ function AreaGraph() {
             value={selectedYear}
           >
             <option value={currentDate}>This Year</option>
-            {aggregatedCombinedData &&
-              aggregatedCombinedData.map((item) => (
-                <option key={item.year} value={item.year}>
-                  {item.year}
+            {sortedYears &&
+              sortedYears.map((item) => (
+                <option key={item} value={item.year}>
+                  {item}
                 </option>
               ))}
           </select>
@@ -240,5 +243,3 @@ function AreaGraph() {
     </div>
   );
 }
-
-export default AreaGraph;
