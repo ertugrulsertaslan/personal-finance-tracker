@@ -6,9 +6,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import IconSelect from "./IconSelect";
+
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function AddTable() {
   const { addIncome, addExpense, addCategory, categories, months } =
@@ -19,6 +21,7 @@ export default function AddTable() {
   const [category, setCategory] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [icon, setIcon] = useState("");
+  const [amountError, setAmountError] = useState(false);
 
   const month = months[startDate.getMonth()];
   const year = startDate.getFullYear();
@@ -58,26 +61,34 @@ export default function AddTable() {
   const handleValueChange = (newValue) => {
     setIcon(newValue);
   };
-
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+    if (e.target.validity.valid) {
+      setAmountError(false);
+    } else {
+      setAmountError(true);
+    }
+  };
   return (
     <>
-      <div className="w-full flex justify-center text-center items-center h-full">
-        <div className="w-full md:w-2/3 lg:w-1/2 px-10 py-5 relative overflow-hidden bg-white">
-          <div className="absolute -top-4 -left-10 -translate-y-1/2 rounded-full w-[520px] h-[400px] blur-3xl mix-blend opacity bg-cobalt-400"></div>
-          <div className="absolute -bottom-10 -left-5 rounded-full w-60 h-96 blur-3xl mix-blend opacity bg-cobalt-200"></div>
-          <div className="relative grid gap-5">
+      <div className="w-full justify-center text-center items-center h-full grid grid-cols-1">
+        <div className="col-span-1 flex justify-center">
+          <div className="grid gap-5 shadow-2xl p-10 rounded-lg">
             <div>
-              <h2 className="font-bold text-2xl m-10 text-cobalt-50">Data</h2>
+              <h2 className="font-bold text-2xl mb-10 mt-5">Data</h2>
             </div>
             <div className="w-full flex justify-between">
               <div className="w-5/12">
                 <TextField
+                  required
+                  error={amountError}
+                  helperText={amountError ? "Enter amount" : ""}
                   size="small"
                   id="outlined-number"
                   label="Amount"
                   type="number"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={handleAmountChange}
                 />
               </div>
               <div className="w-5/12">
@@ -141,11 +152,20 @@ export default function AddTable() {
             </div>
 
             <div className="mb-5">
-              <DatePicker
-                className="w-full"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-              />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  size="small"
+                  label="Select Date"
+                  value={startDate}
+                  onChange={(date) => {
+                    setStartDate(date);
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  sx={{ width: "320px" }}
+                />
+              </LocalizationProvider>
             </div>
             <div>
               <button
