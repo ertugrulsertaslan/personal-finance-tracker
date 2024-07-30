@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-function Menu() {
+export default function Menu() {
   return (
     <>
-      <div className="w-full flex flex-col h-full p-5 shadow-lg text-center md:text-left text-xs">
+      <div className="w-full flex flex-col h-full p-5 text-center md:text-left text-xs border rounded-lg">
         <div className="flex-grow">
           <div className="w-full mb-5 mt-5 flex items-center">
             <Icon
@@ -22,7 +22,7 @@ function Menu() {
             </Link>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="fluent:data-pie-16-filled"
                 className="text-customLineColor text-xl"
@@ -31,7 +31,7 @@ function Menu() {
             </Link>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="clarity:analytics-solid"
                 className="text-customLineColor text-xl"
@@ -40,7 +40,7 @@ function Menu() {
             </Link>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="material-symbols:account-box"
                 className="text-customLineColor text-xl"
@@ -49,7 +49,7 @@ function Menu() {
             </Link>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="ri:exchange-fill"
                 className="text-customLineColor text-xl"
@@ -58,7 +58,7 @@ function Menu() {
             </Link>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="hugeicons:transaction"
                 className="text-customLineColor text-xl"
@@ -70,7 +70,7 @@ function Menu() {
 
         <div className="mt-5">
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="ic:outline-help"
                 className="text-customLineColor text-xl"
@@ -79,7 +79,7 @@ function Menu() {
             </Link>
           </div>
           <div className="w-full">
-            <Link to={`/components/Dashboard`} className="flex items-center">
+            <Link to={`/Dashboard`} className="flex items-center">
               <Icon
                 icon="uil:setting"
                 className="text-customLineColor text-xl"
@@ -92,5 +92,3 @@ function Menu() {
     </>
   );
 }
-
-export default Menu;

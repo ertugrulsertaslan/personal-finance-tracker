@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { useDataStore } from "./Store";
 
-const SendMoneyModal = ({ show, onClose }) => {
+export default function SendMoneyModal({ show, onClose }) {
   if (!show) {
     return null;
   }
@@ -196,6 +196,4 @@ const SendMoneyModal = ({ show, onClose }) => {
       )}
     </>
   );
-};
-
-export default SendMoneyModal;
+}

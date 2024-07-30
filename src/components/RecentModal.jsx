@@ -1,7 +1,7 @@
 import React from "react";
 import { useDataStore } from "./Store.jsx";
 import { Icon } from "@iconify/react";
-const RecentModal = ({ show, onClose }) => {
+export default function RecentModal({ show, onClose }) {
   const { expenses, incomes, sendMoneys } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
@@ -77,6 +77,4 @@ const RecentModal = ({ show, onClose }) => {
       </div>
     </div>
   );
-};
-
-export default RecentModal;
+}

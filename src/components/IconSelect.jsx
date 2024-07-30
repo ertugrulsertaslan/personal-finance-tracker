@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import TextField from "@mui/material/TextField";
 import { useDataStore } from "./Store";
 import Autocomplete from "@mui/material/Autocomplete";
-function IconSelect({ onValueChange }) {
+export default function IconSelect({ onValueChange }) {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const { useDebounce } = useDataStore();
@@ -40,7 +40,7 @@ function IconSelect({ onValueChange }) {
           const { key, ...restProps } = props;
           return (
             <li key={key} {...restProps}>
-              <Icon icon={data} className="text-2xl mr-4" />
+              <Icon icon={data} className="text-3xl mr-4" />
 
               {data}
             </li>
@@ -59,5 +59,3 @@ function IconSelect({ onValueChange }) {
     </>
   );
 }
-
-export default IconSelect;
