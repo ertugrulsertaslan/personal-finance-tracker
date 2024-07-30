@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDataStore } from "./Store";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement, Title } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 ChartJS.register(Tooltip, Legend, ArcElement, Title);
 
-function PieChart() {
+export default function PieChart() {
   const { expenses, incomes, months, sendMoneys } = useDataStore((state) => ({
     expenses: state.expenses,
     incomes: state.incomes,
@@ -16,6 +16,11 @@ function PieChart() {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectType, setSelectType] = useState(true);
   const [date, setDate] = useState(new Date().getMonth());
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    buttonRef.current.focus();
+  }, []);
 
   const currentDate = months[date];
   const handleMonthChange = (event) => {
@@ -137,6 +142,7 @@ function PieChart() {
           Income ${totalIncomes}
         </button>
         <button
+          ref={buttonRef}
           onClick={() => setSelectType(true)}
           className="w-1/2 focus:border-b-2 border-customLineColor text-gray-400 p-1 focus:font-bold focus:text-black"
         >
@@ -149,5 +155,3 @@ function PieChart() {
     </div>
   );
 }
-
-export default PieChart;
