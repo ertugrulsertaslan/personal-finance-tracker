@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { useDataStore } from "./Store";
+import { useDataStore } from "../Store";
 
 export default function SendMoneyModal({ show, onClose }) {
   if (!show) {

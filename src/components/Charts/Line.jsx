@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDataStore } from "./Store";
+import { useDataStore } from "../Store.jsx";
 import {
   LineChart,
   Line,
@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import PdfMaker from "./PdfMaker";
+import PdfMaker from "../Common/PdfMaker";
 
 export default function AreaGraph() {
   const {

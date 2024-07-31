@@ -1,5 +1,5 @@
 import React from "react";
-import { useDataStore } from "./Store.jsx";
+import { useDataStore } from "../Store.jsx";
 import { Icon } from "@iconify/react";
 export default function RecentModal({ show, onClose }) {
   const { expenses, incomes, sendMoneys } = useDataStore((state) => ({

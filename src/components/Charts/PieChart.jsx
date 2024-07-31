@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDataStore } from "./Store";
+import { useDataStore } from "../Store.jsx";
+import { Chart as ChartJS, Tooltip, Legend, ArcElement, Title } from "chart.js";
 import { Pie } from "react-chartjs-2";
-
+ChartJS.register(Tooltip, Legend, ArcElement, Title);
 export default function PieChart() {
   const { expenses, incomes, months, sendMoneys, selectType, setSelectType } =
     useDataStore((state) => ({

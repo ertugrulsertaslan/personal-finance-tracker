@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "./Menu";
+import Menu from "./Common/Menu.jsx";
 
 export default function Layout({ children }) {
   return (

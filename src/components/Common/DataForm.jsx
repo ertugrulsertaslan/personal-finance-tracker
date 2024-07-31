@@ -1,18 +1,18 @@
-import { useDataStore } from "./Store";
+import { useDataStore } from "../Store.jsx";
 import { useState } from "react";
+import IconSelect from "./IconSelect";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import IconSelect from "./IconSelect";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function AddTable() {
+export default function DataForm() {
   const { addIncome, addExpense, addCategory, categories, months } =
     useDataStore();
 
@@ -119,9 +119,14 @@ export default function AddTable() {
                     }
                     return option.title;
                   }}
-                  renderOption={(props, option) => (
-                    <li {...props}>{option.title}</li>
-                  )}
+                  renderTags={(tagValue, getTagProps) =>
+                    tagValue.map((option, index) => {
+                      const { key, ...rest } = getTagProps({ index });
+                      return (
+                        <Chip key={key} label={option[option]} {...rest} />
+                      );
+                    })
+                  }
                   freeSolo
                   renderInput={(params) => (
                     <TextField {...params} label="Category" size="small" />

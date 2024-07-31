@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDataStore } from "./Store.jsx";
 import { Icon } from "@iconify/react";
-import LineGraph from "./Line.jsx";
-import PieChart from "./PieChart.jsx";
-import RecentModal from "./RecentModal.jsx";
-import SendMoneyModal from "./SendMoneyModal.jsx";
+import LineGraph from "./Charts/Line.jsx";
+import PieChart from "./Charts/PieChart.jsx";
+import RecentModal from "./Modals/RecentModal.jsx";
+import SendMoneyModal from "./Modals/SendMoneyModal.jsx";
 
 export default function Dashboard() {
   const {

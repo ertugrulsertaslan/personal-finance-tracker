@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Icon } from "@iconify/react";
 import TextField from "@mui/material/TextField";
-import { useDataStore } from "./Store";
+import { useDataStore } from "../Store.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
 export default function IconSelect({ onValueChange }) {
   const [query, setQuery] = useState("");
