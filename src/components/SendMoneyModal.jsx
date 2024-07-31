@@ -128,7 +128,7 @@ export default function SendMoneyModal({ show, onClose }) {
                 &times;
               </button>
             </div>
-            <div className="text-black text-sm space-y-6">
+            <div className="text-black text-sm space-y-6 text-left">
               <div className="space-y-4">
                 <h5 className="mt-5">Transfer</h5>
                 <div className="grid grid-cols-6 row-span-1 items-center text-center">

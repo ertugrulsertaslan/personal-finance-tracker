@@ -1,11 +1,27 @@
-import LineGraph from "./Line.jsx";
+import React, { useState } from "react";
 import { useDataStore } from "./Store.jsx";
-import PieChart from "./PieChart.jsx";
 import { Icon } from "@iconify/react";
+import LineGraph from "./Line.jsx";
+import PieChart from "./PieChart.jsx";
 import RecentModal from "./RecentModal.jsx";
 import SendMoneyModal from "./SendMoneyModal.jsx";
-import React, { useState } from "react";
+
 export default function Dashboard() {
+  const {
+    expenses,
+    incomes,
+    totalExpenses,
+    totalIncomes,
+    calculateTotalPrice,
+    sendMoneys,
+  } = useDataStore((state) => ({
+    expenses: state.expenses,
+    incomes: state.incomes,
+    totalExpenses: state.totalExpenses(),
+    totalIncomes: state.totalIncomes(),
+    calculateTotalPrice: state.calculateTotalPrice(),
+    sendMoneys: state.sendMoneys,
+  }));
   const [showSendMoneyModal, setShowSendMoneyModal] = useState(false);
   const [showRecentModal, setShowRecentModal] = useState(false);
 
@@ -18,23 +34,6 @@ export default function Dashboard() {
   const closeRecentModal = () => {
     setShowRecentModal(!showRecentModal);
   };
-  const {
-    expenses,
-    incomes,
-    totalExpenses,
-    totalIncomes,
-    calculateTotalPrice,
-    categoryIcons,
-    sendMoneys,
-  } = useDataStore((state) => ({
-    expenses: state.expenses,
-    incomes: state.incomes,
-    totalExpenses: state.totalExpenses(),
-    totalIncomes: state.totalIncomes(),
-    calculateTotalPrice: state.calculateTotalPrice(),
-    categoryIcons: state.categoryIcons,
-    sendMoneys: state.sendMoneys,
-  }));
   const combinedList = [
     ...expenses.map((item) => ({ ...item, type: "expense" })),
     ...incomes.map((item) => ({ ...item, type: "income" })),
@@ -45,11 +44,14 @@ export default function Dashboard() {
     const dateB = new Date(`${b.year}-${b.month}-${b.day}-${b.time}`);
     return dateB - dateA;
   });
+
   return (
     <>
       <div className="col-span-12 md:col-span-9 lg:col-span-9 xl:col-span-7 h-full">
         <div className="bg-white rounded-xl border">
-          <LineGraph />
+          <div>
+            <LineGraph />
+          </div>
         </div>
         <div className="w-full flex justify-center md:justify-between bg-white mt-5 rounded-xl border">
           <div className="grid grid-cols-4">
@@ -178,7 +180,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="ml-3 p-5 border-t">
+          <div className="ml-3 p-5 border-t relative">
             <div className="flex justify-between text-sm mb-2 text-center items-center">
               <h2 className="font-semibold">Recent Transactions</h2>
               <button
@@ -225,7 +227,7 @@ export default function Dashboard() {
                     </div>
                     <div className="col-span-3 flex justify-end">
                       <p
-                        className={`font-bold text-xs ${
+                        className={`font-bold text-xs w-14 overflow-hidden whitespace-nowrap text-ellipsis ${
                           item.type === "expense"
                             ? "text-red-600"
                             : "text-green-600"
@@ -238,6 +240,12 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
+            </div>
+            <div
+              onClick={toggleRecentModal}
+              className="absolute right-1/2 cursor-pointer"
+            >
+              <Icon icon="ep:arrow-down" className="ml-1 mt-1" />
             </div>
           </div>
         </div>
