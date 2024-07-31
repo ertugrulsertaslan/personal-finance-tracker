@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDataStore } from "./Store";
-import { Chart as ChartJS, Tooltip, Legend, ArcElement, Title } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
-ChartJS.register(Tooltip, Legend, ArcElement, Title);
-
 export default function PieChart() {
-  const { expenses, incomes, months, sendMoneys } = useDataStore((state) => ({
-    expenses: state.expenses,
-    incomes: state.incomes,
-    sendMoneys: state.sendMoneys,
-    months: state.months,
-  }));
+  const { expenses, incomes, months, sendMoneys, selectType, setSelectType } =
+    useDataStore((state) => ({
+      expenses: state.expenses,
+      incomes: state.incomes,
+      sendMoneys: state.sendMoneys,
+      months: state.months,
+      selectType: state.selectType,
+      setSelectType: state.setSelectType,
+    }));
 
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectType, setSelectType] = useState(true);
+
   const [date, setDate] = useState(new Date().getMonth());
   const buttonRef = useRef(null);
 
@@ -149,7 +149,10 @@ export default function PieChart() {
           Expense ${totalExpenses}
         </button>
       </div>
-      <div className="flex justify-center w-full h-48 mt-10">
+      <div
+        className="flex justify-center w-full h-48 mt-10"
+        id={selectType ? "expenses" : "incomes"}
+      >
         <Pie data={pieChartDataExpenses} options={options} />
       </div>
     </div>
