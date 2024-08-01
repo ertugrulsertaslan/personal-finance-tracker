@@ -61,13 +61,13 @@ export default function PdfMaker() {
 
         const docDefinition = {
           pageSize: "A4",
-          pageMargins: [40, 60, 40, 60],
+          pageMargins: [40, 20, 40, 60],
 
           content: [
             {
               text: "Person Data",
               style: "header",
-              margin: [0, 20, 0, 20],
+              margin: [0, 0, 0, 20],
               alignment: "center",
             },
             {
