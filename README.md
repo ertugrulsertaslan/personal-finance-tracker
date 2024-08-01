@@ -69,7 +69,7 @@ after running scripts go to http://localhost:5173 with your browser to use the a
   <h3>Pdf Document 📄🗂️</h3>
     <img src="screenshots/dashboard-pdf.png" alt="dashboardPdf" style="width: 50%; margin-right: 4%;">
   <h3>Data Form 📝✅</h3>
-    <img src="screenshots/homepage.png" alt="Home Page" style="width: 48%; margin-right: 4%;">
+    <img src="screenshots/homepage.png" alt="Home Page" style="width: 70%; margin-right: 4%;">
 </div>
 <div style="display: flex; flex-direction: row;">
   <h3>All Recent Transactions 💳🏦</h3>
