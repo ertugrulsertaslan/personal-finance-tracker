@@ -151,10 +151,16 @@ export default function PieChart() {
         </button>
       </div>
       <div
-        className="flex justify-center w-full h-48 mt-10"
+        className="flex justify-center w-full max-h-48 mt-10"
         id={selectType ? "expenses" : "incomes"}
+        style={{ height: "300px" }}
       >
-        <Pie data={pieChartDataExpenses} options={options} />
+        <Pie
+          width="100%"
+          height="100%"
+          data={pieChartDataExpenses}
+          options={options}
+        />
       </div>
     </div>
   );
