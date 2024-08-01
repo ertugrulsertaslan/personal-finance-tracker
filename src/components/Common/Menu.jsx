@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 export default function Menu() {
   return (
     <>
-      <div className="w-full flex flex-col h-full p-5 text-center md:text-left text-xs border rounded-lg">
+      <div className="w-full flex flex-col h-full p-5 text-center md:text-left text-xs border rounded-lg bg-white">
         <div className="flex-grow">
           <div className="w-full mb-5 mt-5 flex items-center">
             <Icon

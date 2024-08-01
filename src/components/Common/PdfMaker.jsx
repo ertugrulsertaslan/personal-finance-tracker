@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDataStore } from "../Store.jsx";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import pdfFonts from "./vfs_fontes.js";
+pdfMake.vfs = pdfFonts;
+
 import html2canvas from "html2canvas";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 export default function PdfMaker() {
   const { expenses, incomes, sendMoneys, calculateTotalPrice, selectType } =
     useDataStore((state) => ({
@@ -17,42 +19,23 @@ export default function PdfMaker() {
       setSelectType: state.setSelectType,
     }));
 
-  const [fontLoaded, setFontLoaded] = useState(false);
-
   const combinedList = [
     ...expenses.map((item) => ({ ...item, type: "expense" })),
     ...incomes.map((item) => ({ ...item, type: "income" })),
     ...sendMoneys.map((item) => ({ ...item, type: "expense" })),
   ];
 
-  useEffect(() => {
-    const loadFont = async () => {
-      try {
-        const response = await fetch("/fonts/Roboto-Medium-base64.txt");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const base64 = await response.text();
-
-        pdfMake.vfs["Roboto-Medium.ttf"] = base64.trim();
-
-        pdfMake.fonts = {
-          Roboto: {
-            normal: "Roboto-Regular.ttf",
-            bold: "Roboto-Medium.ttf",
-            italics: "Roboto-Italic.ttf",
-            bolditalics: "Roboto-Italic.ttf",
-          },
-        };
-
-        setFontLoaded(true);
-      } catch (error) {
-        console.error("Failed to load font:", error);
-      }
-    };
-
-    loadFont();
-  }, []);
+  pdfMake.fonts = {
+    Roboto: {
+      normal:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
+      bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
+      italics:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
+      bolditalics:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
+    },
+  };
 
   const tableBody = combinedList.map((item) => [
     item.type,

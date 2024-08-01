@@ -114,7 +114,7 @@ export default function AreaGraph() {
   };
 
   return (
-    <div>
+    <>
       <div className="w-full p-4">
         <div className="flex justify-between">
           <div>
@@ -173,6 +173,6 @@ export default function AreaGraph() {
           />
         </LineChart>
       </ResponsiveContainer>
-    </div>
+    </>
   );
 }
