@@ -53,7 +53,7 @@ export default function Dashboard() {
             <LineGraph />
           </div>
         </div>
-        <div className="w-full flex justify-center md:justify-between bg-white mt-5 rounded-xl border">
+        <div className="w-full flex justify-center bg-white mt-5 rounded-xl border">
           <div className="grid grid-cols-4">
             <div className="col-span-4 md:col-span-2 ml-5 mr-6">
               <div className="mt-4 ml-3 mb-3">
@@ -127,7 +127,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="col-span-12 md:col-span-12 xl:col-span-3 border rounded-lg h-full">
+      <div className="col-span-12 md:col-span-12 xl:col-span-3 border rounded-lg h-full bg-white relative">
         <div className="grid grid-cols-1 grid-rows-2 items-center justify-center">
           <div className="rounded-xl h-70 justify-center items-center text-center p-5">
             <div className="col-span-1 mb-5">
@@ -139,7 +139,7 @@ export default function Dashboard() {
                   <div className="flex justify-between text-xs">
                     <p>Virtual card</p>
                     <h5>
-                      <img src="/src/assets/card-image.png" alt="" />
+                      <img src="/assets/card-image.png" alt="" />
                     </h5>
                   </div>
                   <div className="text-left">
@@ -241,13 +241,13 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
-            <div
-              onClick={toggleRecentModal}
-              className="absolute right-1/2 cursor-pointer"
-            >
-              <Icon icon="ep:arrow-down" className="ml-1 mt-1" />
-            </div>
           </div>
+        </div>
+        <div
+          onClick={toggleRecentModal}
+          className="absolute right-1/2 bottom-3 cursor-pointer"
+        >
+          <Icon icon="ep:arrow-down" className="ml-1 mt-1" />
         </div>
       </div>
     </>

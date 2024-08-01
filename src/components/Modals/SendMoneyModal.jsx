@@ -11,25 +11,25 @@ export default function SendMoneyModal({ show, onClose }) {
       id: 1,
       name: "Ayd",
       phone: "2459 2367",
-      img: "/src/assets/photo.jpg",
+      img: "/assets/photo.jpg",
     },
     {
       id: 2,
       name: "Mrv",
       phone: "2494 1477",
-      img: "/src/assets/photo.jpg",
+      img: "/assets/photo.jpg",
     },
     {
       id: 3,
       name: "Ert",
       phone: "7248 2537",
-      img: "/src/assets/photo.jpg",
+      img: "/assets/photo.jpg",
     },
     {
       id: 4,
       name: "Srt",
       phone: "6420 2140",
-      img: "/src/assets/photo.jpg",
+      img: "/assets/photo.jpg",
     },
   ];
   const handleContinue = (person) => {
@@ -74,7 +74,7 @@ export default function SendMoneyModal({ show, onClose }) {
     <>
       {showFirstModal ? (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 text-left"
           onClick={onClose}
         >
           <div
