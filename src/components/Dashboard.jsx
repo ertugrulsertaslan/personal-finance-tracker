@@ -31,9 +31,6 @@ export default function Dashboard() {
   const toggleRecentModal = () => {
     setShowRecentModal(!showRecentModal);
   };
-  const closeRecentModal = () => {
-    setShowRecentModal(!showRecentModal);
-  };
   const combinedList = [
     ...expenses.map((item) => ({ ...item, type: "expense" })),
     ...incomes.map((item) => ({ ...item, type: "income" })),
@@ -189,7 +186,7 @@ export default function Dashboard() {
               >
                 Show all
               </button>
-              <RecentModal show={showRecentModal} onClose={closeRecentModal} />
+              <RecentModal show={showRecentModal} onClose={toggleRecentModal} />
             </div>
             <div className="w-full h-[290px] overflow-hidden">
               <div className="space-y-1">

@@ -32,7 +32,7 @@ export default function RecentModal({ show, onClose }) {
       >
         <div className="flex justify-between items-center pb-3">
           <h4 className="font-semibold text-black">Recent Transactions</h4>
-          <button onClick={onClose} className="text-black close">
+          <button onClick={onClose} className="text-black">
             &times;
           </button>
         </div>
