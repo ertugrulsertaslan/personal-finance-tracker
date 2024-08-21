@@ -3,6 +3,28 @@
 
 Personal Finance Tracker allows users to manage their expenses, visualize financial data, and generate reports.
 
+  ## Demo  🌐
+ [personal-finance-trackerr](https://personal-finance-trackerr.netlify.app) 
+
+## Screenshots 📸
+<div>
+    <h3>Dashboard 📊📈</h3>
+    <img src="screenshots/dashboard.png" alt="Dashboard" style="width: 100%; margin-right: 4%;">
+</div>
+<div style="display: flex; flex-direction: row;">
+  <h3>Pdf Document 📄🗂️</h3>
+    <img src="screenshots/dashboard-pdf.png" alt="dashboardPdf" style="width: 50%; margin-right: 4%;">
+  <h3>Data Form 📝✅</h3>
+    <img src="screenshots/homepage.png" alt="Home Page" style="width: 70%; margin-right: 4%;">
+</div>
+<div style="display: flex; flex-direction: row;">
+  <h3>All Recent Transactions 💳🏦</h3>
+    <img src="screenshots/dashboard-recent.png" alt="dashboard-recent" style="width: 60%; margin-right: 4%;">
+  <h3>Money Transfer 💸🔄</h3>
+   <img src="screenshots/dashboard-sendmoney.png" alt="dashboard-sendmoney" style="width: 60%; margin-right: 4%;">
+</div>
+
+
 ## Features ✨
 
 - **💸📈 Expense and Income Tracking**: Users can add their expenses and income, select categories, icons, and dates 
@@ -57,26 +79,9 @@ Prerequisites
 ```
 after running scripts go to http://localhost:5173 with your browser to use the app. 🌐
 
-  ## Demo  🌐
- [personal-finance-trackerr](https://personal-finance-trackerr.netlify.app) 
 
-## Screenshots 📸
-<div>
-    <h3>Dashboard 📊📈</h3>
-    <img src="screenshots/dashboard.png" alt="Dashboard" style="width: 100%; margin-right: 4%;">
-</div>
-<div style="display: flex; flex-direction: row;">
-  <h3>Pdf Document 📄🗂️</h3>
-    <img src="screenshots/dashboard-pdf.png" alt="dashboardPdf" style="width: 50%; margin-right: 4%;">
-  <h3>Data Form 📝✅</h3>
-    <img src="screenshots/homepage.png" alt="Home Page" style="width: 70%; margin-right: 4%;">
-</div>
-<div style="display: flex; flex-direction: row;">
-  <h3>All Recent Transactions 💳🏦</h3>
-    <img src="screenshots/dashboard-recent.png" alt="dashboard-recent" style="width: 60%; margin-right: 4%;">
-  <h3>Money Transfer 💸🔄</h3>
-   <img src="screenshots/dashboard-sendmoney.png" alt="dashboard-sendmoney" style="width: 60%; margin-right: 4%;">
-</div>
+
+
 
 
 
